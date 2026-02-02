@@ -28,9 +28,8 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      overflow-x:hidden;
+      padding:18px;
       text-align:center;
-      padding: 18px;
     }
 
     .stage{ width:min(860px, 96vw); }
@@ -41,251 +40,87 @@
       border-radius: var(--radius);
       padding: 26px 22px;
       backdrop-filter: blur(6px);
-      position:relative;
-      overflow:hidden;
     }
 
     .emoji-banner{
       font-size: 38px;
       margin-bottom: 6px;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.18));
     }
 
     .title{
       font-size: clamp(26px, 4.2vw, 44px);
-      margin: 10px 0 8px;
+      margin: 12px 0 8px;
       font-weight: 800;
     }
 
     .subtitle{
       font-size: clamp(16px, 2.2vw, 19px);
       line-height: 1.55;
-      opacity: 0.96;
-      margin: 0 auto 16px;
-      max-width: 720px;
       white-space: pre-line;
+      opacity:0.96;
+      margin-bottom:14px;
     }
 
-    .tiny{
-      font-size: 13px;
-      opacity: 0.92;
-      margin-top: 10px;
-    }
-
-    /* ===== Image block (real photo + blurred background) ===== */
-    .img-wrap{
-      width: 100%;
-      margin: 12px auto 14px;
-      display:flex;
-      justify-content:center;
-    }
-
+    /* IMAGE with blur bg */
     .img{
       width: min(680px, 92vw);
       height: min(400px, 62vw);
       border-radius: 22px;
       overflow:hidden;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.28);
-      border: 1px solid rgba(255,255,255,0.22);
-      position: relative;
-      background: rgba(255,255,255,0.10);
-      isolation:isolate;
+      position:relative;
+      margin: 14px auto;
     }
 
-    /* blurred full background layer */
     .img .bg{
       position:absolute;
       inset:0;
       background-image: var(--img-url);
       background-size: cover;
       background-position: center;
-      transform: scale(1.10);
-
-      /* brighter bg */
-      filter: blur(18px) brightness(1.35) contrast(1.03) saturate(1.20);
-      opacity: 0.98;
-      z-index:0;
+      filter: blur(18px) brightness(1.35) saturate(1.25);
+      transform: scale(1.15);
     }
 
-    .img .bg::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: radial-gradient(circle at center,
-        rgba(0,0,0,0.02) 0%,
-        rgba(0,0,0,0.10) 70%,
-        rgba(0,0,0,0.16) 100%);
-    }
-
-    /* real photo layer */
     .img img{
-      position: relative;
-      z-index: 2;
+      position:relative;
       width:100%;
       height:100%;
       object-fit: contain;
-      object-position: center center;
-      display:block;
-
-      /* brighter main */
-      filter: brightness(1.22) contrast(1.05) saturate(1.10)
-              drop-shadow(0 12px 28px rgba(0,0,0,0.33));
-
-      /* soft edge */
-      -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 76%, rgba(0,0,0,0) 100%);
-      mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 76%, rgba(0,0,0,0) 100%);
+      filter: brightness(1.22) contrast(1.05);
+      z-index:2;
     }
 
-    /* ===== IG-style frame sparkles (base) ===== */
-    .img.ig::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      z-index:3;
-      pointer-events:none;
-
-      -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-      mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-
-      background:
-        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.95) 0 2px, rgba(255,255,255,0) 7px),
-        radial-gradient(circle at 86% 22%, rgba(255,255,255,0.95) 0 2px, rgba(255,255,255,0) 7px),
-        radial-gradient(circle at 20% 78%, rgba(255,255,255,0.90) 0 2px, rgba(255,255,255,0) 7px),
-        radial-gradient(circle at 82% 80%, rgba(255,255,255,0.92) 0 2px, rgba(255,255,255,0) 7px),
-        radial-gradient(ellipse at 8% 50%, rgba(255,255,255,0.40), rgba(255,255,255,0) 55%),
-        radial-gradient(ellipse at 92% 45%, rgba(255,255,255,0.36), rgba(255,255,255,0) 55%),
-        radial-gradient(circle at 50% 8%, rgba(255,240,250,0.40), rgba(255,240,250,0) 60%),
-        radial-gradient(circle at 48% 92%, rgba(255,240,250,0.32), rgba(255,240,250,0) 62%);
-
-      filter: blur(0.2px) drop-shadow(0 0 12px rgba(255,255,255,0.35));
-      opacity: 0.80;
-      mix-blend-mode: screen;
-      animation: igTwinkle 3.6s ease-in-out infinite;
-    }
-
-    .img.ig::after{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      z-index:3;
-      pointer-events:none;
-
-      -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-      mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-
-      background:
-        linear-gradient(110deg,
-          rgba(255,255,255,0) 0%,
-          rgba(255,255,255,0.18) 45%,
-          rgba(255,255,255,0.50) 50%,
-          rgba(255,255,255,0.18) 55%,
-          rgba(255,255,255,0) 100%);
-      opacity: 0.34;
-      filter: blur(6px) drop-shadow(0 0 16px rgba(255,255,255,0.25));
-      transform: translateX(-30%);
-      animation: igSweep 4.8s ease-in-out infinite;
-      mix-blend-mode: screen;
-    }
-
-    @keyframes igTwinkle{
-      0%,100%{ opacity:0.65; transform: scale(1); }
-      50%{ opacity:0.95; transform: scale(1.01); }
-    }
-    @keyframes igSweep{
-      0%{ transform: translateX(-30%) rotate(0.5deg); opacity:0.10; }
-      40%{ opacity:0.34; }
-      70%{ opacity:0.24; }
-      100%{ transform: translateX(30%) rotate(-0.5deg); opacity:0.10; }
-    }
-
-    /* ===== Random blinking sparkles container (edges only) ===== */
-    .sparkle-layer{
-      position:absolute;
-      inset:0;
-      z-index:4;
-      pointer-events:none;
-
-      -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-      mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
-    }
-
-    .sparkle{
-      position:absolute;
-      width: 18px;
-      height: 18px;
-      transform: translate(-50%,-50%) scale(0.6);
-      opacity: 0;
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.40));
-      mix-blend-mode: screen;
-      animation: pop 950ms ease-in-out forwards;
-    }
-
-    .sparkle::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius: 999px;
-      background:
-        radial-gradient(circle, rgba(255,255,255,0.95) 0 22%, rgba(255,255,255,0) 55%),
-        conic-gradient(from 0deg,
-          rgba(255,255,255,0) 0 12%,
-          rgba(255,255,255,0.90) 12% 14%,
-          rgba(255,255,255,0) 14% 25%,
-          rgba(255,255,255,0.80) 25% 27%,
-          rgba(255,255,255,0) 27% 37%,
-          rgba(255,255,255,0.90) 37% 39%,
-          rgba(255,255,255,0) 39% 50%,
-          rgba(255,255,255,0.85) 50% 52%,
-          rgba(255,255,255,0) 52% 62%,
-          rgba(255,255,255,0.90) 62% 64%,
-          rgba(255,255,255,0) 64% 75%,
-          rgba(255,255,255,0.80) 75% 77%,
-          rgba(255,255,255,0) 77% 87%,
-          rgba(255,255,255,0.90) 87% 89%,
-          rgba(255,255,255,0) 89% 100%);
-      filter: blur(0.2px);
-    }
-
-    .sparkle.big{ width: 26px; height: 26px; }
-    .sparkle.tiny{ width: 14px; height: 14px; }
-
-    @keyframes pop{
-      0%   { opacity:0; transform: translate(-50%,-50%) scale(0.4); }
-      25%  { opacity:0.98; transform: translate(-50%,-50%) scale(1.06); }
-      55%  { opacity:0.78; transform: translate(-50%,-50%) scale(0.96); }
-      100% { opacity:0; transform: translate(-50%,-50%) scale(0.55); }
-    }
-
-    /* ===== Buttons ===== */
+    /* Buttons */
     .buttons{
       display:flex;
       justify-content:center;
-      gap: 14px;
-      margin-top: 14px;
-      flex-wrap: wrap;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-top:16px;
     }
 
     button{
-      font-size: 16px;
-      padding: 10px 22px;
-      border: none;
-      border-radius: 999px;
+      font-size:16px;
+      padding:10px 22px;
+      border:none;
+      border-radius:999px;
       cursor:pointer;
-      color: #fff;
-      user-select:none;
-      transition: transform .08s ease, filter .12s ease;
-      min-width: 140px;
-      -webkit-tap-highlight-color: transparent;
-      box-shadow: 0 12px 26px rgba(0,0,0,0.20);
-      position: relative;
-      overflow: hidden;
+      color:#fff;
+      min-width:140px;
+      box-shadow:0 10px 22px rgba(0,0,0,0.2);
     }
-    button:active{ transform: scale(.98); }
 
-    #yes{ background: var(--green); }
-    #no{ background: var(--red); color:#fff; }
+    #yes{
+      background: var(--green);
+      position:relative;
+      overflow:hidden;
+    }
 
-    /* YES glitter sweep */
+    #no{
+      background: var(--red);
+    }
+
+    /* YES glitter */
     #yes::after{
       content:"";
       position:absolute;
@@ -297,414 +132,165 @@
         rgba(255,255,255,0.20) 55%,
         rgba(255,255,255,0) 100%);
       transform: translateX(-35%);
-      opacity: 0.35;
+      opacity:0.3;
       filter: blur(6px);
-      animation: yesGlitter 2.4s ease-in-out infinite;
-      mix-blend-mode: screen;
-      pointer-events:none;
+      animation: glitter 2.4s infinite;
     }
 
-    @keyframes yesGlitter{
+    @keyframes glitter{
       0%{ transform: translateX(-35%); opacity:0.12; }
-      40%{ opacity:0.38; }
+      50%{ opacity:0.38; }
       100%{ transform: translateX(35%); opacity:0.12; }
     }
 
-    /* ❤️ heartbeat */
+    /* ❤️ Heartbeat */
     .yes-heart{
       display:inline-block;
-      margin: 0 4px;
-      animation: heartBeat 1.1s infinite;
-      transform-origin: center;
-      filter: drop-shadow(0 0 8px rgba(255,255,255,0.55));
+      margin:0 4px;
+      animation: beat 1.1s infinite;
     }
 
-    @keyframes heartBeat{
-      0%, 100% { transform: scale(1); }
-      25%      { transform: scale(1.25); }
-      45%      { transform: scale(1.05); }
-      60%      { transform: scale(1.35); }
-      75%      { transform: scale(1.10); }
+    @keyframes beat{
+      0%,100%{ transform:scale(1); }
+      25%{ transform:scale(1.25); }
+      60%{ transform:scale(1.35); }
     }
 
     .pill{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      justify-content:center;
-      margin-top: 16px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.18);
+      display:inline-block;
+      margin-top:16px;
+      padding:10px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.16);
       cursor:pointer;
-    }
-
-    /* confetti */
-    .confetti{
-      position: fixed;
-      top: -12px;
-      font-size: 18px;
-      animation: fall linear forwards;
-      pointer-events:none;
-      filter: drop-shadow(0 7px 12px rgba(0,0,0,0.25));
-      z-index: 9999;
-    }
-    @keyframes fall{
-      to{
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0.92;
-      }
     }
   </style>
 </head>
 
 <body>
+
+  <!-- ✅ Background Music -->
+  <audio id="bgm" loop>
+    <source src="love.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="stage" id="app"></div>
 
   <script>
     const IMAGES = {
       didiCurious: "01-didi-curious.jpg",
       bibiSmile: "02-bibi-smile.jpg",
-      cryGirl: "cry-girl.jpg",
-
-      protector: "protector.jpg.jpg",
-      chef: "chef.jpg.jpg",
-      shoePlaster: "shoe-plaster.jpg.jpeg",
-      world: "world.jpg.jpg",
-      carry: "carry.jpg.jpg",
-      listen: "listen.jpg.PNG",
-      holdHand: "hold-hand.jpg.jpg",
-      sareeWedding: "saree-wedding.jpg.jpg"
+      cryGirl: "cry-girl.jpg"
     };
+
+    function playMusic(){
+      const audio = document.getElementById("bgm");
+      if(audio) audio.play().catch(()=>{});
+    }
 
     function render(html){
       document.getElementById("app").innerHTML = html;
     }
 
-    function confettiBurst(count){
-      const emojis = ["💖","✨","🎉","🌹","💘","🥰","💕","🌷","💝"];
-      for(let i=0;i<count;i++){
-        const el = document.createElement("div");
-        el.className = "confetti";
-        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-        el.style.left = (Math.random()*100) + "vw";
-        el.style.animationDuration = (1.8 + Math.random()*2.6) + "s";
-        el.style.opacity = (0.72 + Math.random()*0.25).toFixed(2);
-        document.body.appendChild(el);
-        setTimeout(()=> el.remove(), 5000);
-      }
-    }
+    /* ===== Screens ===== */
 
-    // ===== Random sparkle engine (IG vibe) =====
-    let sparkleTimer = null;
-
-    function stopSparkles(){
-      if(sparkleTimer){ clearInterval(sparkleTimer); sparkleTimer = null; }
-    }
-
-    function startSparkles(container){
-      stopSparkles();
-      if(!container) return;
-
-      sparkleTimer = setInterval(()=>{
-        const n = 1 + Math.floor(Math.random()*3);
-        for(let i=0;i<n;i++) spawnSparkle(container);
-      }, 240);
-    }
-
-    function spawnSparkle(container){
-      const s = document.createElement("div");
-      s.className = "sparkle";
-
-      const r = Math.random();
-      if(r < 0.18) s.classList.add("big");
-      else if(r < 0.45) s.classList.add("tiny");
-
-      const side = Math.floor(Math.random()*4);
-      let x, y;
-
-      if(side === 0){
-        x = 10 + Math.random()*80; y = 6 + Math.random()*18;
-      }else if(side === 2){
-        x = 10 + Math.random()*80; y = 76 + Math.random()*18;
-      }else if(side === 1){
-        x = 78 + Math.random()*18; y = 10 + Math.random()*80;
-      }else{
-        x = 6 + Math.random()*18; y = 10 + Math.random()*80;
-      }
-
-      s.style.left = x + "%";
-      s.style.top  = y + "%";
-
-      const hue = (Math.random() < 0.35) ? 330 : 0;
-      s.style.transform = `translate(-50%,-50%) rotate(${Math.random()*40 - 20}deg) scale(0.6)`;
-      s.style.filter = `drop-shadow(0 0 10px rgba(255,255,255,0.45)) hue-rotate(${hue}deg)`;
-
-      container.appendChild(s);
-      setTimeout(()=> s.remove(), 980);
-    }
-
-    function photoCard({emoji, title, subtitle, imgSrc, nextKey, ig=false}){
+    function screenStart(){
       render(`
         <div class="card">
-          <div class="emoji-banner">${emoji || ""}</div>
-
-          <div class="img-wrap">
-            <div class="img ${ig ? "ig" : ""}" style="--img-url:url('${imgSrc}')">
-              <div class="bg"></div>
-              <img src="${imgSrc}" alt="photo" />
-              ${ig ? `<div class="sparkle-layer" id="sparkleLayer"></div>` : ``}
-            </div>
+          <div class="emoji-banner">💘🌹</div>
+          <div class="title">Hey Love 💕</div>
+          <div class="subtitle">
+It’s Valentine’s Day, Didi 🥰
+Will you be my Valentine? 💖
           </div>
-
-          <div class="title">${title}</div>
-          <div class="subtitle">${subtitle}</div>
-
-          <div class="pill" onclick="go('${nextKey}')">Tap to continue ➜</div>
-        </div>
-      `);
-
-      const layer = document.getElementById("sparkleLayer");
-      if(ig) startSparkles(layer);
-      else stopSparkles();
-    }
-
-    function yesNoCard({emoji, title, subtitle, imgSrc, yesKey, noKey, tiny, ig=false}){
-      render(`
-        <div class="card">
-          <div class="emoji-banner">${emoji || ""}</div>
-
-          ${imgSrc ? `
-          <div class="img-wrap">
-            <div class="img ${ig ? "ig" : ""}" style="--img-url:url('${imgSrc}')">
-              <div class="bg"></div>
-              <img src="${imgSrc}" alt="photo" />
-              ${ig ? `<div class="sparkle-layer" id="sparkleLayer"></div>` : ``}
-            </div>
-          </div>` : ""}
-
-          <div class="title">${title}</div>
-          <div class="subtitle">${subtitle}</div>
 
           <div class="buttons">
-            <button id="yes" onclick="go('${yesKey}')">Yes <span class="yes-heart">❤️</span>✨</button>
-            <button id="no" onclick="go('${noKey}')">No 😝</button>
-          </div>
+            <button id="yes" onclick="playMusic(); go('question')">
+              Yes <span class="yes-heart">❤️</span>✨
+            </button>
 
-          ${tiny ? `<div class="tiny">${tiny}</div>` : ""}
+            <button id="no" onclick="go('deny')">
+              No 😝
+            </button>
+          </div>
         </div>
       `);
-
-      const layer = document.getElementById("sparkleLayer");
-      if(ig) startSparkles(layer);
-      else stopSparkles();
     }
 
-    function cryPhotoScreen({title, subtitle, imgSrc, backKey}){
+    function screenDeny(){
       render(`
         <div class="card">
           <div class="emoji-banner">😭💔😭</div>
 
-          <div class="img-wrap">
-            <div class="img" style="--img-url:url('${imgSrc}')">
-              <div class="bg"></div>
-              <img src="${imgSrc}" alt="photo" />
-            </div>
+          <div class="img" style="--img-url:url('${IMAGES.cryGirl}')">
+            <div class="bg"></div>
+            <img src="${IMAGES.cryGirl}" />
           </div>
 
-          <div class="title">${title}</div>
-          <div class="subtitle">${subtitle}</div>
+          <div class="title">Why you deny my Valentine surprise? 😭</div>
+          <div class="subtitle">Pleaseeee Didi… 🥺💔</div>
 
-          <div class="pill" onclick="go('${backKey}')">⬅️ Back</div>
+          <div class="pill" onclick="go('start')">⬅ Back</div>
         </div>
       `);
-
-      stopSparkles();
-    }
-
-    // ===== Valentine flow =====
-    function screenStart(){
-      yesNoCard({
-        emoji:"💘🌹",
-        title:"Hey Love 💕",
-        subtitle:"It’s Valentine’s Day, Didi 🥰\nWill you be my Valentine? 💖",
-        imgSrc:null,
-        yesKey:"question",
-        noKey:"deny1",
-        tiny:"(No button is real… but please don’t break my heart 😝)",
-        ig:false
-      });
-    }
-
-    function screenDeny1(){
-      cryPhotoScreen({
-        title:"Why you deny my Valentine surprise? 😭",
-        subtitle:"Pleaseeee Didi… 🥺💔",
-        imgSrc: IMAGES.cryGirl,
-        backKey:"start"
-      });
     }
 
     function screenQuestion(){
-      // no sparkle on didi curious
-      yesNoCard({
-        emoji:"🤨💭",
-        title:"Do you know how important you are to me?",
-        subtitle:"One little question for you, Didi 😚",
-        imgSrc: IMAGES.didiCurious,
-        yesKey:"bibi",
-        noKey:"deny2",
-        tiny:null,
-        ig:false
-      });
+      render(`
+        <div class="card">
+          <div class="emoji-banner">🤨💭</div>
+
+          <div class="img" style="--img-url:url('${IMAGES.didiCurious}')">
+            <div class="bg"></div>
+            <img src="${IMAGES.didiCurious}" />
+          </div>
+
+          <div class="title">Do you know how important you are to me?</div>
+          <div class="subtitle">One little question, Didi 😚</div>
+
+          <div class="buttons">
+            <button id="yes" onclick="go('bibi')">
+              Yes <span class="yes-heart">❤️</span>✨
+            </button>
+            <button id="no" onclick="go('deny')">
+              No 😝
+            </button>
+          </div>
+        </div>
+      `);
     }
 
-    function screenDeny2(){
-      cryPhotoScreen({
-        title:"Why you ignore my feelings? 😭",
-        subtitle:"Okay… I’m crying now 🥺💔",
-        imgSrc: IMAGES.cryGirl,
-        backKey:"question"
-      });
-    }
-
+    /* ✅ Updated content */
     function screenBibi(){
-      photoCard({
-        emoji:"😊❤️",
-        title:"You're important for me",
-        subtitle:"Today, tomorrow… always 💖",
-        imgSrc: IMAGES.bibiSmile,
-        nextKey:"how",
-        ig:false
-      });
-    }
-
-    function screenHowIntro(){
       render(`
         <div class="card">
-          <div class="emoji-banner">✨💞✨</div>
-          <div class="title">Let me share how important you are to me</div>
-          <div class="subtitle">Let me show you, Didi… one by one 🥺💖</div>
-          <div class="pill" onclick="go('p1')">Tap ➜</div>
+          <div class="emoji-banner">😆💖</div>
+
+          <div class="img" style="--img-url:url('${IMAGES.bibiSmile}')">
+            <div class="bg"></div>
+            <img src="${IMAGES.bibiSmile}" />
+          </div>
+
+          <div class="title">eiei! yeah you're important to me</div>
+          <div class="subtitle">for real… like A LOT 🥹💘</div>
+
+          <div class="pill" onclick="go('start')">Tap again 💕</div>
         </div>
       `);
-      stopSparkles();
-    }
-
-    function screenWish(){
-      confettiBurst(150);
-      setTimeout(()=>confettiBurst(120), 450);
-      setTimeout(()=>confettiBurst(90), 900);
-
-      render(`
-        <div class="card">
-          <div class="emoji-banner">💘🌹💘</div>
-          <div class="title">HAPPY VALENTINE’S DAY, DIDI! 🥰</div>
-
-          <div class="subtitle">You make my world softer, safer, and happier every day.
-Wish you to trade the same energy from me ✨❤️
-
-I love you — today and always
-until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
-
-          <div class="tiny">— your Bibi 💖</div>
-        </div>
-      `);
-
-      stopSparkles();
     }
 
     function go(key){
       const routes = {
         start: screenStart,
-        deny1: screenDeny1,
+        deny: screenDeny,
         question: screenQuestion,
-        deny2: screenDeny2,
-        bibi: screenBibi,
-        how: screenHowIntro,
-
-        p1: ()=>photoCard({
-          emoji:"💪🛡️",
-          title:"You’re my protector",
-          subtitle:"You make me feel safe and strong 💪😌",
-          imgSrc: IMAGES.protector,
-          nextKey:"p2",
-          ig:true
-        }),
-
-        p2: ()=>photoCard({
-          emoji:"👨‍🍳🍲",
-          title:"You’re my chef",
-          subtitle:"You keep my heart (and tummy) full 😋💖",
-          imgSrc: IMAGES.chef,
-          nextKey:"p3",
-          ig:true
-        }),
-
-        /* replaced bandage with lovely hearts */
-        p3: ()=>photoCard({
-          emoji:"💖💕",
-          title:"You take care of me",
-          subtitle:"Even the tiniest things… you notice 🥺💞",
-          imgSrc: IMAGES.shoePlaster,
-          nextKey:"p4",
-          ig:true
-        }),
-
-        p4: ()=>photoCard({
-          emoji:"🌍✈️",
-          title:"You open the world for me",
-          subtitle:"With you, everything feels possible 🌍✨",
-          imgSrc: IMAGES.world,
-          nextKey:"p5",
-          ig:true
-        }),
-
-        p5: ()=>photoCard({
-          emoji:"🛍️🤍",
-          title:"You make me feel light",
-          subtitle:"You carry the heavy parts with me 🥺🤍",
-          imgSrc: IMAGES.carry,
-          nextKey:"p6",
-          ig:true
-        }),
-
-        p6: ()=>photoCard({
-          emoji:"🫶👂",
-          title:"You clear all my doubts",
-          subtitle:"You listen… and calm my mind 💬🤍",
-          imgSrc: IMAGES.listen,
-          nextKey:"p7",
-          ig:true
-        }),
-
-        p7: ()=>photoCard({
-          emoji:"🤝❤️",
-          title:"You never make me feel abandoned",
-          subtitle:"You hold my hand through everything 🤝❤️",
-          imgSrc: IMAGES.holdHand,
-          nextKey:"p8",
-          ig:true
-        }),
-
-        p8: ()=>photoCard({
-          emoji:"💍✨",
-          title:"You’re my forever Valentine",
-          subtitle:"The person I see my future with 💖",
-          imgSrc: IMAGES.sareeWedding,
-          nextKey:"wish",
-          ig:true
-        }),
-
-        wish: screenWish
+        bibi: screenBibi
       };
-
       (routes[key] || screenStart)();
     }
 
     go("start");
-    window.go = go;
   </script>
+
 </body>
 </html>
