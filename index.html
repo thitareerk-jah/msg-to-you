@@ -89,7 +89,7 @@
       border: 1px solid rgba(255,255,255,0.22);
       position: relative;
       background: rgba(255,255,255,0.10);
-      isolation:isolate; /* for overlays */
+      isolation:isolate;
     }
 
     /* blurred full background layer */
@@ -99,23 +99,23 @@
       background-image: var(--img-url);
       background-size: cover;
       background-position: center;
-      transform: scale(1.08);
+      transform: scale(1.10);
 
-      /* ✅ make it BRIGHTER (before it was too dark) */
-      filter: blur(18px) brightness(1.08) contrast(1.02) saturate(1.12);
-      opacity: 0.95;
+      /* ✅ BRIGHTER blur bg */
+      filter: blur(18px) brightness(1.28) contrast(1.03) saturate(1.18);
+      opacity: 0.98;
       z-index:0;
     }
 
-    /* subtle vignette (lighter than before) */
+    /* ✅ lighter vignette */
     .img .bg::after{
       content:"";
       position:absolute;
       inset:0;
       background: radial-gradient(circle at center,
-        rgba(0,0,0,0.05) 0%,
-        rgba(0,0,0,0.16) 70%,
-        rgba(0,0,0,0.22) 100%);
+        rgba(0,0,0,0.02) 0%,
+        rgba(0,0,0,0.10) 70%,
+        rgba(0,0,0,0.16) 100%);
     }
 
     /* real photo layer */
@@ -124,59 +124,84 @@
       z-index: 2;
       width:100%;
       height:100%;
-      object-fit: contain; /* ✅ no crop */
+      object-fit: contain;
       object-position: center center;
       display:block;
 
-      /* ✅ brighten photo */
-      filter: brightness(1.07) contrast(1.02) saturate(1.05)
-              drop-shadow(0 12px 28px rgba(0,0,0,0.35));
+      /* ✅ BRIGHTER main photo */
+      filter: brightness(1.18) contrast(1.04) saturate(1.08)
+              drop-shadow(0 12px 28px rgba(0,0,0,0.33));
 
-      /* ✅ soft edge around the photo */
+      /* soft edge */
       -webkit-mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 76%, rgba(0,0,0,0) 100%);
       mask-image: radial-gradient(closest-side, rgba(0,0,0,1) 76%, rgba(0,0,0,0) 100%);
     }
 
-    /* ===== Glitter overlay (only when enabled) ===== */
-    .img.glitter::before{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      z-index:3;
-      pointer-events:none;
-
-      /* sparkly dots + soft glow */
-      background:
-        radial-gradient(circle, rgba(255,255,255,0.95) 0 2px, rgba(255,255,255,0) 3px) 0 0 / 90px 90px,
-        radial-gradient(circle, rgba(255,255,255,0.80) 0 1.5px, rgba(255,255,255,0) 3px) 40px 30px / 120px 120px,
-        radial-gradient(circle, rgba(255,255,255,0.55) 0 1.2px, rgba(255,255,255,0) 3px) 10px 60px / 140px 140px,
-        radial-gradient(circle, rgba(255,225,245,0.55) 0 2px, rgba(255,225,245,0) 4px) 30px 10px / 160px 160px;
-
-      filter: blur(0.2px) drop-shadow(0 0 10px rgba(255,255,255,0.30));
-      opacity: 0.65;
-      animation: glitterFloat 7.5s ease-in-out infinite;
-      mix-blend-mode: screen;
-    }
-
-    .img.glitter::after{
+    /* ===== IG-style sparkles around the frame (NOT covering center) ===== */
+    .img.ig::before{
       content:"";
       position:absolute;
       inset:0;
       z-index:3;
       pointer-events:none;
 
-      /* dreamy soft haze */
-      background: radial-gradient(circle at 30% 35%, rgba(255,255,255,0.22), rgba(255,255,255,0) 55%),
-                  radial-gradient(circle at 75% 70%, rgba(255,240,250,0.20), rgba(255,240,250,0) 60%);
-      filter: blur(6px);
-      opacity: 0.55;
+      /* Keep sparkles around edges by masking center out */
+      -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
+
+      /* Star/sparkle flares (IG vibe) */
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.95) 0 2px, rgba(255,255,255,0) 7px),
+        radial-gradient(circle at 86% 22%, rgba(255,255,255,0.95) 0 2px, rgba(255,255,255,0) 7px),
+        radial-gradient(circle at 20% 78%, rgba(255,255,255,0.90) 0 2px, rgba(255,255,255,0) 7px),
+        radial-gradient(circle at 82% 80%, rgba(255,255,255,0.92) 0 2px, rgba(255,255,255,0) 7px),
+
+        radial-gradient(ellipse at 8% 50%, rgba(255,255,255,0.45), rgba(255,255,255,0) 55%),
+        radial-gradient(ellipse at 92% 45%, rgba(255,255,255,0.40), rgba(255,255,255,0) 55%),
+
+        radial-gradient(circle at 50% 8%, rgba(255,240,250,0.45), rgba(255,240,250,0) 60%),
+        radial-gradient(circle at 48% 92%, rgba(255,240,250,0.35), rgba(255,240,250,0) 62%);
+
+      filter: blur(0.2px) drop-shadow(0 0 12px rgba(255,255,255,0.35));
+      opacity: 0.80;
+      mix-blend-mode: screen;
+      animation: igTwinkle 3.6s ease-in-out infinite;
+    }
+
+    /* Extra moving lens streaks */
+    .img.ig::after{
+      content:"";
+      position:absolute;
+      inset:-30%;
+      z-index:3;
+      pointer-events:none;
+
+      -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
+      mask-image: radial-gradient(circle at center, rgba(0,0,0,0) 0 58%, rgba(0,0,0,1) 70%);
+
+      background:
+        linear-gradient(110deg,
+          rgba(255,255,255,0) 0%,
+          rgba(255,255,255,0.22) 45%,
+          rgba(255,255,255,0.55) 50%,
+          rgba(255,255,255,0.22) 55%,
+          rgba(255,255,255,0) 100%);
+      opacity: 0.35;
+      filter: blur(6px) drop-shadow(0 0 16px rgba(255,255,255,0.25));
+      transform: translateX(-30%);
+      animation: igSweep 4.8s ease-in-out infinite;
       mix-blend-mode: screen;
     }
 
-    @keyframes glitterFloat{
-      0%{ transform: translate(0,0) rotate(0deg); }
-      50%{ transform: translate(-18px, 12px) rotate(6deg); }
-      100%{ transform: translate(0,0) rotate(0deg); }
+    @keyframes igTwinkle{
+      0%,100%{ opacity:0.70; transform: scale(1); }
+      50%{ opacity:0.92; transform: scale(1.01); }
+    }
+    @keyframes igSweep{
+      0%{ transform: translateX(-30%) rotate(0.5deg); opacity:0.10; }
+      40%{ opacity:0.35; }
+      70%{ opacity:0.25; }
+      100%{ transform: translateX(30%) rotate(-0.5deg); opacity:0.10; }
     }
 
     /* ===== Buttons ===== */
@@ -242,7 +267,6 @@
   <div class="stage" id="app"></div>
 
   <script>
-    // ✅ Your filenames (must match repo exactly)
     const IMAGES = {
       didiCurious: "01-didi-curious.jpg",
       bibiSmile: "02-bibi-smile.jpg",
@@ -276,13 +300,13 @@
       }
     }
 
-    function photoCard({emoji, title, subtitle, imgSrc, nextKey, glitter=false}){
+    function photoCard({emoji, title, subtitle, imgSrc, nextKey, ig=false}){
       render(`
         <div class="card">
           <div class="emoji-banner">${emoji || ""}</div>
 
           <div class="img-wrap">
-            <div class="img ${glitter ? "glitter" : ""}" style="--img-url:url('${imgSrc}')">
+            <div class="img ${ig ? "ig" : ""}" style="--img-url:url('${imgSrc}')">
               <div class="bg"></div>
               <img src="${imgSrc}" alt="photo" />
             </div>
@@ -296,14 +320,14 @@
       `);
     }
 
-    function yesNoCard({emoji, title, subtitle, imgSrc, yesKey, noKey, tiny, glitter=false}){
+    function yesNoCard({emoji, title, subtitle, imgSrc, yesKey, noKey, tiny, ig=false}){
       render(`
         <div class="card">
           <div class="emoji-banner">${emoji || ""}</div>
 
           ${imgSrc ? `
           <div class="img-wrap">
-            <div class="img ${glitter ? "glitter" : ""}" style="--img-url:url('${imgSrc}')">
+            <div class="img ${ig ? "ig" : ""}" style="--img-url:url('${imgSrc}')">
               <div class="bg"></div>
               <img src="${imgSrc}" alt="photo" />
             </div>
@@ -322,7 +346,6 @@
       `);
     }
 
-    // ✅ Cry page now uses same photo layout (contain + blur bg)
     function cryPhotoScreen({title, subtitle, imgSrc, backKey}){
       render(`
         <div class="card">
@@ -353,7 +376,7 @@
         yesKey:"question",
         noKey:"deny1",
         tiny:"“No” doesn't exist to me 😅",
-        glitter:false
+        ig:false
       });
     }
 
@@ -367,6 +390,7 @@
     }
 
     function screenQuestion(){
+      // ❌ No IG sparkle on this page (as you requested)
       yesNoCard({
         emoji:"🤨💭",
         title:"Do you know what I wanna tell you?",
@@ -375,7 +399,7 @@
         yesKey:"bibi",
         noKey:"deny2",
         tiny:null,
-        glitter:true   // ✅ mention/teasing Didi → glitter
+        ig:false
       });
     }
 
@@ -395,7 +419,7 @@
         subtitle:"you know that? 😄💖",
         imgSrc: IMAGES.bibiSmile,
         nextKey:"how",
-        glitter:false
+        ig:false
       });
     }
 
@@ -446,7 +470,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"You make me feel stronger and protected 💪😌",
           imgSrc: IMAGES.protector,
           nextKey:"p2",
-          glitter:true
+          ig:true
         }),
 
         p2: ()=>photoCard({
@@ -455,7 +479,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"You always keep me happy and full 😋🍽️",
           imgSrc: IMAGES.chef,
           nextKey:"p3",
-          glitter:true
+          ig:true
         }),
 
         p3: ()=>photoCard({
@@ -464,7 +488,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"Even small things… you take care of me 💞🥺",
           imgSrc: IMAGES.shoePlaster,
           nextKey:"p4",
-          glitter:true
+          ig:true
         }),
 
         p4: ()=>photoCard({
@@ -473,7 +497,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"With you, everything feels possible 🌍✈️",
           imgSrc: IMAGES.world,
           nextKey:"p5",
-          glitter:true
+          ig:true
         }),
 
         p5: ()=>photoCard({
@@ -482,7 +506,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"You take away the heavy weight out of me 🛍️🤍",
           imgSrc: IMAGES.carry,
           nextKey:"p6",
-          glitter:true
+          ig:true
         }),
 
         p6: ()=>photoCard({
@@ -491,7 +515,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"You listen and calm my mind 👂💬",
           imgSrc: IMAGES.listen,
           nextKey:"p7",
-          glitter:true
+          ig:true
         }),
 
         p7: ()=>photoCard({
@@ -500,7 +524,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"You hold my hand through everything 🤝❤️",
           imgSrc: IMAGES.holdHand,
           nextKey:"p8",
-          glitter:true
+          ig:true
         }),
 
         p8: ()=>photoCard({
@@ -509,7 +533,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
           imgSrc: IMAGES.sareeWedding,
           nextKey:"wish",
-          glitter:true
+          ig:true
         }),
 
         wish: screenWish
