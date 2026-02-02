@@ -2,191 +2,456 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Happy Birthday ❤️</title>
+  <title>Happy Birthday Didi 💖</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    body {
+    :root{
+      --bg1:#ff4d6d;
+      --bg2:#ff758f;
+      --card: rgba(0,0,0,0.22);
+      --shadow: 0 18px 45px rgba(0,0,0,0.25);
+      --radius: 26px;
+      --white: #fff;
+      --green:#2ecc71;
+      --red:#e74c3c;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      height:100vh;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #ff4d6d, #ff758f);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      color: white;
-      text-align: center;
-      overflow: hidden;
+      color: var(--white);
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      text-align:center;
     }
 
-    .card {
-      background: rgba(0, 0, 0, 0.20);
-      padding: 30px;
+    .stage{
+      width:min(760px, 92vw);
+      padding: 18px;
+    }
+
+    .card{
+      background: var(--card);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 26px 22px;
+      backdrop-filter: blur(6px);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .title{
+      font-size: clamp(26px, 4.2vw, 42px);
+      margin: 10px 0 8px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle{
+      font-size: clamp(16px, 2.2vw, 19px);
+      line-height: 1.55;
+      opacity: 0.96;
+      margin: 0 auto 16px;
+      max-width: 640px;
+      white-space: pre-line; /* allow \n line breaks */
+    }
+
+    .tiny{
+      font-size: 13px;
+      opacity: 0.92;
+      margin-top: 10px;
+    }
+
+    .img-wrap{
+      width: 100%;
+      margin: 12px auto 12px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .img{
+      width: min(520px, 86vw);
+      height: min(320px, 52vw);
       border-radius: 20px;
-      max-width: 360px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      overflow:hidden;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .img img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .emoji-banner{
+      font-size: 38px;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.22));
+      margin-bottom: 6px;
+    }
+
+    .buttons{
+      margin-top: 14px;
       position: relative;
+      min-height: 74px;
     }
 
-    .emoji {
-      font-size: 52px;
-      margin-bottom: 8px;
-      display: block;
-      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
-    }
-
-    h1 {
-      font-size: 26px;
-      margin: 0 0 10px;
-    }
-
-    p {
+    button{
       font-size: 16px;
-      margin: 0 0 18px;
-      line-height: 1.35;
-    }
-
-    .buttons {
-      position: relative;
-      height: 70px;
-    }
-
-    button {
-      font-size: 16px;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border: none;
-      border-radius: 30px;
-      cursor: pointer;
+      border-radius: 999px;
+      cursor:pointer;
       margin: 10px;
-      transition: transform 0.08s ease;
-      user-select: none;
+      color: #fff;
+      transition: transform .08s ease, opacity .2s ease;
+      user-select:none;
     }
+    button:active{ transform: scale(.98); }
 
-    button:active { transform: scale(0.98); }
-
-    #yes {
-      background: #2ecc71;
-      color: white;
-    }
-
-    #no {
-      background: #e74c3c;
-      color: white;
-      position: absolute;
+    #yes{ background: var(--green); }
+    #no{
+      background: var(--red);
+      position:absolute;
       left: 58%;
-      top: 10px;
+      top: 8px;
     }
 
-    .tiny {
-      font-size: 12px;
-      opacity: 0.9;
-      margin-top: 6px;
+    .click-anywhere{
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      cursor:pointer;
+    }
+
+    /* Cry background screens */
+    .cry-bg{
+      background: #000;
+      padding: 0;
+    }
+    .cry-bg::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: var(--cry-url);
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.55);
+      transform: scale(1.03);
+    }
+    .cry-content{
+      position:relative;
+      padding: 28px 22px;
     }
 
     /* confetti */
-    .confetti {
+    .confetti{
       position: fixed;
       top: -12px;
       font-size: 18px;
       animation: fall linear forwards;
-      pointer-events: none;
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+      pointer-events:none;
+      filter: drop-shadow(0 7px 12px rgba(0,0,0,0.25));
+      z-index: 9999;
     }
-
-    @keyframes fall {
-      to {
+    @keyframes fall{
+      to{
         transform: translateY(110vh) rotate(360deg);
-        opacity: 0.9;
+        opacity: 0.92;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="card" id="card">
-    <span class="emoji">🎂🎈</span>
-    <h1>Hey Love 💕</h1>
-    <p>
-      It’s your birthday, Didi! 🥳<br>
-      Click <b>YES</b> to open your surprise 🎁
-    </p>
-
-    <div class="buttons">
-      <button id="yes" onclick="sayYes()">Yes 💚</button>
-      <button id="no" onmouseover="moveNo()" onclick="moveNo()">No 😝</button>
-    </div>
-
-    <div class="tiny">“No” seems a bit shy 😅</div>
-  </div>
+  <div class="stage" id="app"></div>
 
   <script>
-    function sayYes() {
-      // confetti burst
-      confettiBurst(90);
+    // ====== IMAGES (must exist in your repo) ======
+    const IMAGES = {
+      didiCurious: "img/01-didi-curious.jpg",
+      bibiSmile: "img/02-bibi-smile.jpg",
+      cryGirl: "img/cry-girl.jpg",
 
-      document.body.innerHTML = `
-        <div style="
-          height:100vh;
-          display:flex;
-          justify-content:center;
-          align-items:center;
-          flex-direction:column;
-          background:linear-gradient(135deg,#ff4d6d,#ff758f);
-          color:white;
-          font-family:Arial;
-          text-align:center;
-          padding:24px;
-        ">
-          <div style="font-size:56px; margin-bottom:10px;">🎉🎂🎉</div>
-          <h1 style="margin:0 0 8px;">HAPPY BIRTHDAY, DIDI! 🥰</h1>
-          <p style="max-width:520px; font-size:18px; margin:0 0 14px; line-height:1.35;">
-            You make my world softer, safer, and happier every day. Wish you to trade the same energy from me ✨❤️<br>
-            I love you — today and always until Pluto and back to Sun and beyond.
-          </p>
-          <div style="font-size:16px; opacity:0.95;">— your Bibi 💖</div>
-          <div style="margin-top:16px; font-size:42px;">🎈✨💝✨🎈</div>
-        </div>
-      `;
+      protector: "img/protector.jpg",
+      chef: "img/chef.jpg",
+      shoePlaster: "img/shoe-plaster.jpg",
+      world: "img/world.jpg",
+      carry: "img/carry.jpg",
+      listen: "img/listen.jpg",
+      holdHand: "img/hold-hand.jpg",
+      sareeWedding: "img/saree-wedding.jpg"
+    };
 
-      // keep confetti falling a bit
-      confettiBurst(70);
-      setTimeout(() => confettiBurst(60), 450);
-      setTimeout(() => confettiBurst(50), 900);
-    }
-
-    function moveNo() {
-      const button = document.getElementById("no");
-      const padding = 20;
-
-      const maxX = window.innerWidth - button.offsetWidth - padding;
-      const maxY = window.innerHeight - button.offsetHeight - padding;
-
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      button.style.left = x + "px";
-      button.style.top = y + "px";
-    }
-
-    function confettiBurst(count) {
-      const emojis = ["🎉","✨","🎈","💖","🥳","💝"];
-      for (let i = 0; i < count; i++) {
+    // ====== HELPERS ======
+    function confettiBurst(count){
+      const emojis = ["🎉","✨","🎈","💖","🥳","💝","🌍","🪐","❤️"];
+      for(let i=0;i<count;i++){
         const el = document.createElement("div");
         el.className = "confetti";
-        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-
-        const left = Math.random() * 100; // vw
-        const duration = 1.8 + Math.random() * 2.5; // seconds
-
+        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        const left = Math.random()*100;
+        const duration = 1.8 + Math.random()*2.6;
         el.style.left = left + "vw";
         el.style.animationDuration = duration + "s";
-        el.style.opacity = (0.7 + Math.random() * 0.3).toFixed(2);
-
+        el.style.opacity = (0.72 + Math.random()*0.25).toFixed(2);
         document.body.appendChild(el);
-
-        setTimeout(() => el.remove(), (duration * 1000) + 200);
+        setTimeout(()=> el.remove(), duration*1000 + 200);
       }
     }
+
+    function moveNo(){
+      const btn = document.getElementById("no");
+      if(!btn) return;
+      const pad = 18;
+      const maxX = window.innerWidth - btn.offsetWidth - pad;
+      const maxY = window.innerHeight - btn.offsetHeight - pad;
+      const x = Math.random() * Math.max(10, maxX);
+      const y = Math.random() * Math.max(10, maxY);
+      btn.style.left = x + "px";
+      btn.style.top  = y + "px";
+    }
+
+    function render(html){
+      document.getElementById("app").innerHTML = html;
+    }
+
+    function photoCard({emoji, title, subtitle, imgSrc, nextKey}){
+      render(`
+        <div class="card">
+          <div class="emoji-banner">${emoji || ""}</div>
+
+          ${imgSrc ? `
+          <div class="img-wrap">
+            <div class="img">
+              <img src="${imgSrc}" alt="photo" />
+            </div>
+          </div>` : ""}
+
+          <div class="title">${title}</div>
+          <div class="subtitle">${subtitle}</div>
+
+          <div class="click-anywhere" onclick="go('${nextKey}')">Tap to continue ➜</div>
+        </div>
+      `);
+    }
+
+    // ====== SCREENS ======
+    function screenStart(){
+      render(`
+        <div class="card">
+          <div class="emoji-banner">🎂🎈</div>
+          <div class="title">Hey Love 💕</div>
+          <div class="subtitle">It’s your birthday, Didi! 🥳\nClick YES to open your surprise 🎁</div>
+
+          <div class="buttons">
+            <button id="yes" onclick="go('question')">Yes 💚</button>
+            <button id="no" onmouseover="moveNo()" onclick="go('deny1')">No 😝</button>
+          </div>
+
+          <div class="tiny">“No” seems a bit shy 😅</div>
+        </div>
+      `);
+    }
+
+    function screenDeny1(){
+      render(`
+        <div class="card cry-bg" style="--cry-url:url('${IMAGES.cryGirl}')">
+          <div class="cry-content">
+            <div class="emoji-banner">😭😭😭</div>
+            <div class="title">Why you deny my surprise?</div>
+            <div class="subtitle">Pleaseeee Didi… 🥺😭</div>
+            <div class="click-anywhere" onclick="go('start')">⬅️ Back</div>
+          </div>
+        </div>
+      `);
+    }
+
+    function screenQuestion(){
+      render(`
+        <div class="card">
+          <div class="emoji-banner">🤨💭</div>
+
+          <div class="img-wrap">
+            <div class="img">
+              <img src="${IMAGES.didiCurious}" alt="Didi curious" />
+            </div>
+          </div>
+
+          <div class="title">Do you know what I wanna tell you?</div>
+          <div class="subtitle">Choose carefully, Didi 😚</div>
+
+          <div class="buttons">
+            <button id="yes" onclick="go('bibi')">Yes 💚</button>
+            <button id="no" onmouseover="moveNo()" onclick="go('deny2')">No 😝</button>
+          </div>
+        </div>
+      `);
+    }
+
+    function screenDeny2(){
+      render(`
+        <div class="card cry-bg" style="--cry-url:url('${IMAGES.cryGirl}')">
+          <div class="cry-content">
+            <div class="emoji-banner">😭💔😭</div>
+            <div class="title">why you ignore my feelings</div>
+            <div class="subtitle">I’m gonna cry now… 😭</div>
+            <div class="click-anywhere" onclick="go('question')">⬅️ Back</div>
+          </div>
+        </div>
+      `);
+    }
+
+    function screenBibi(){
+      photoCard({
+        emoji: "😊❤️",
+        title: "You're important for me",
+        subtitle: "Smiley for you 😄💖",
+        imgSrc: IMAGES.bibiSmile,
+        nextKey: "how"
+      });
+    }
+
+    function screenHowIntro(){
+      render(`
+        <div class="card">
+          <div class="emoji-banner">✨💞✨</div>
+          <div class="title">How you important for me</div>
+          <div class="subtitle">Let me show you, Didi… one by one 😘</div>
+          <div class="click-anywhere" onclick="go('p1')">Tap ➜</div>
+        </div>
+      `);
+    }
+
+    // one-by-one pages with real photos
+    function screenPhotoLine({emoji, title, subtitle, imgSrc, nextKey}){
+      photoCard({emoji, title, subtitle, imgSrc, nextKey});
+    }
+
+    function screenWish(){
+      confettiBurst(140);
+      setTimeout(()=>confettiBurst(100), 450);
+      setTimeout(()=>confettiBurst(80), 900);
+
+      render(`
+        <div class="card">
+          <div class="emoji-banner">🎉🎂🎉</div>
+          <div class="title">HAPPY BIRTHDAY, DIDI! 🥰</div>
+
+          <div class="subtitle">You make my world softer, safer, and happier every day.
+Wish you to trade the same energy from me ✨❤️
+
+I love you — today and always
+until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
+
+          <div class="tiny">— your Bibi 💖</div>
+        </div>
+      `);
+    }
+
+    // ====== ROUTER ======
+    function go(key){
+      const routes = {
+        start: screenStart,
+        deny1: screenDeny1,
+        question: screenQuestion,
+        deny2: screenDeny2,
+        bibi: screenBibi,
+        how: screenHowIntro,
+
+        p1: ()=>screenPhotoLine({
+          emoji:"💪🛡️",
+          title:"you're my protector",
+          subtitle:"You make me feel stronger 💪😌",
+          imgSrc: IMAGES.protector,
+          nextKey:"p2"
+        }),
+
+        p2: ()=>screenPhotoLine({
+          emoji:"👨‍🍳🍲",
+          title:"you're my chef to keep me full",
+          subtitle:"You always keep me happy and full 😋🍽️",
+          imgSrc: IMAGES.chef,
+          nextKey:"p3"
+        }),
+
+        p3: ()=>screenPhotoLine({
+          emoji:"🩹👟",
+          title:"you keep me safe",
+          subtitle:"Even small things… you take care of me 🩹🥺",
+          imgSrc: IMAGES.shoePlaster,
+          nextKey:"p4"
+        }),
+
+        p4: ()=>screenPhotoLine({
+          emoji:"🌍✈️",
+          title:"you open me the world",
+          subtitle:"With you, everything feels possible 🌍✈️",
+          imgSrc: IMAGES.world,
+          nextKey:"p5"
+        }),
+
+        p5: ()=>screenPhotoLine({
+          emoji:"🛍️✨",
+          title:"you make me feel light",
+          subtitle:"You carry the weight with me 🛍️🤍",
+          imgSrc: IMAGES.carry,
+          nextKey:"p6"
+        }),
+
+        p6: ()=>screenPhotoLine({
+          emoji:"🫶👂",
+          title:"you clear all my doubts",
+          subtitle:"You listen and calm my mind 👂💬",
+          imgSrc: IMAGES.listen,
+          nextKey:"p7"
+        }),
+
+        p7: ()=>screenPhotoLine({
+          emoji:"🤝❤️",
+          title:"you never make me feel abandoned",
+          subtitle:"You hold my hand through everything 🤝❤️",
+          imgSrc: IMAGES.holdHand,
+          nextKey:"p8"
+        }),
+
+        p8: ()=>screenPhotoLine({
+          emoji:"💍✨",
+          title:"you're a kind of my I see future with",
+          subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
+          imgSrc: IMAGES.sareeWedding,
+          nextKey:"wish"
+        }),
+
+        wish: screenWish
+      };
+
+      (routes[key] || screenStart)();
+    }
+
+    // start
+    go("start");
+
+    // expose functions for inline handlers
+    window.go = go;
+    window.moveNo = moveNo;
   </script>
 </body>
 </html>
