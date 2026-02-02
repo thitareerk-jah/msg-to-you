@@ -59,7 +59,7 @@
       opacity: 0.96;
       margin: 0 auto 16px;
       max-width: 640px;
-      white-space: pre-line; /* allow \n line breaks */
+      white-space: pre-line;
     }
 
     .tiny{
@@ -184,23 +184,22 @@
   <div class="stage" id="app"></div>
 
   <script>
-    // ====== IMAGES (must exist in your repo) ======
+    // ✅ YOUR EXACT FILENAMES (root folder)
     const IMAGES = {
-      didiCurious: "img/01-didi-curious.jpg",
-      bibiSmile: "img/02-bibi-smile.jpg",
-      cryGirl: "img/cry-girl.jpg",
+      didiCurious: "01-didi-curious.jpg",
+      bibiSmile: "02-bibi-smile.jpg",
+      cryGirl: "cry-girl.jpg",
 
-      protector: "img/protector.jpg",
-      chef: "img/chef.jpg",
-      shoePlaster: "img/shoe-plaster.jpg",
-      world: "img/world.jpg",
-      carry: "img/carry.jpg",
-      listen: "img/listen.jpg",
-      holdHand: "img/hold-hand.jpg",
-      sareeWedding: "img/saree-wedding.jpg"
+      protector: "protector.jpg.jpg",
+      chef: "chef.jpg.jpg",
+      shoePlaster: "shoe-plaster.jpg.jpeg",
+      world: "world.jpg.jpg",
+      carry: "carry.jpg.jpg",
+      listen: "listen.jpg.PNG",
+      holdHand: "hold-hand.jpg.jpg",
+      sareeWedding: "saree-wedding.jpg.jpg"
     };
 
-    // ====== HELPERS ======
     function confettiBurst(count){
       const emojis = ["🎉","✨","🎈","💖","🥳","💝","🌍","🪐","❤️"];
       for(let i=0;i<count;i++){
@@ -237,23 +236,19 @@
       render(`
         <div class="card">
           <div class="emoji-banner">${emoji || ""}</div>
-
           ${imgSrc ? `
           <div class="img-wrap">
             <div class="img">
               <img src="${imgSrc}" alt="photo" />
             </div>
           </div>` : ""}
-
           <div class="title">${title}</div>
           <div class="subtitle">${subtitle}</div>
-
           <div class="click-anywhere" onclick="go('${nextKey}')">Tap to continue ➜</div>
         </div>
       `);
     }
 
-    // ====== SCREENS ======
     function screenStart(){
       render(`
         <div class="card">
@@ -288,13 +283,11 @@
       render(`
         <div class="card">
           <div class="emoji-banner">🤨💭</div>
-
           <div class="img-wrap">
             <div class="img">
               <img src="${IMAGES.didiCurious}" alt="Didi curious" />
             </div>
           </div>
-
           <div class="title">Do you know what I wanna tell you?</div>
           <div class="subtitle">Choose carefully, Didi 😚</div>
 
@@ -323,7 +316,7 @@
       photoCard({
         emoji: "😊❤️",
         title: "You're important for me",
-        subtitle: "Smiley for you 😄💖",
+        subtitle: "Do you know that 😄💖",
         imgSrc: IMAGES.bibiSmile,
         nextKey: "how"
       });
@@ -338,11 +331,6 @@
           <div class="click-anywhere" onclick="go('p1')">Tap ➜</div>
         </div>
       `);
-    }
-
-    // one-by-one pages with real photos
-    function screenPhotoLine({emoji, title, subtitle, imgSrc, nextKey}){
-      photoCard({emoji, title, subtitle, imgSrc, nextKey});
     }
 
     function screenWish(){
@@ -366,7 +354,6 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
       `);
     }
 
-    // ====== ROUTER ======
     function go(key){
       const routes = {
         start: screenStart,
@@ -376,7 +363,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
         bibi: screenBibi,
         how: screenHowIntro,
 
-        p1: ()=>screenPhotoLine({
+        p1: ()=>photoCard({
           emoji:"💪🛡️",
           title:"you're my protector",
           subtitle:"You make me feel stronger 💪😌",
@@ -384,7 +371,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           nextKey:"p2"
         }),
 
-        p2: ()=>screenPhotoLine({
+        p2: ()=>photoCard({
           emoji:"👨‍🍳🍲",
           title:"you're my chef to keep me full",
           subtitle:"You always keep me happy and full 😋🍽️",
@@ -392,15 +379,15 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           nextKey:"p3"
         }),
 
-        p3: ()=>screenPhotoLine({
-          emoji:"🩹👟",
-          title:"you keep me safe",
-          subtitle:"Even small things… you take care of me 🩹🥺",
+        p3: ()=>photoCard({
+          emoji:"🫶💕",
+          title:"you keep me safe and calm",
+          subtitle:"Even small things… you take care of me 🥺💕",
           imgSrc: IMAGES.shoePlaster,
           nextKey:"p4"
         }),
 
-        p4: ()=>screenPhotoLine({
+        p4: ()=>photoCard({
           emoji:"🌍✈️",
           title:"you open me the world",
           subtitle:"With you, everything feels possible 🌍✈️",
@@ -408,15 +395,15 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           nextKey:"p5"
         }),
 
-        p5: ()=>screenPhotoLine({
+        p5: ()=>photoCard({
           emoji:"🛍️✨",
           title:"you make me feel light",
-          subtitle:"You carry the weight with me 🛍️🤍",
+          subtitle:"You take the heavy weight out of me 🛍️🤍",
           imgSrc: IMAGES.carry,
           nextKey:"p6"
         }),
 
-        p6: ()=>screenPhotoLine({
+        p6: ()=>photoCard({
           emoji:"🫶👂",
           title:"you clear all my doubts",
           subtitle:"You listen and calm my mind 👂💬",
@@ -424,7 +411,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           nextKey:"p7"
         }),
 
-        p7: ()=>screenPhotoLine({
+        p7: ()=>photoCard({
           emoji:"🤝❤️",
           title:"you never make me feel abandoned",
           subtitle:"You hold my hand through everything 🤝❤️",
@@ -432,7 +419,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
           nextKey:"p8"
         }),
 
-        p8: ()=>screenPhotoLine({
+        p8: ()=>photoCard({
           emoji:"💍✨",
           title:"you're a kind of my I see future with",
           subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
@@ -446,10 +433,7 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
       (routes[key] || screenStart)();
     }
 
-    // start
     go("start");
-
-    // expose functions for inline handlers
     window.go = go;
     window.moveNo = moveNo;
   </script>
