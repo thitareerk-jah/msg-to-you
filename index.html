@@ -28,11 +28,12 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:18px;
+      overflow-x:hidden;
       text-align:center;
+      padding: 18px;
     }
 
-    .stage{ width:min(860px, 96vw); }
+    .stage{ width:min(900px, 96vw); }
 
     .card{
       background: var(--card);
@@ -40,257 +41,594 @@
       border-radius: var(--radius);
       padding: 26px 22px;
       backdrop-filter: blur(6px);
+      position:relative;
+      overflow:hidden;
     }
 
     .emoji-banner{
       font-size: 38px;
       margin-bottom: 6px;
+      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.18));
+      position: relative;
+      z-index: 5;
     }
 
     .title{
-      font-size: clamp(26px, 4.2vw, 44px);
-      margin: 12px 0 8px;
-      font-weight: 800;
+      font-size: clamp(26px, 4.4vw, 48px);
+      margin: 10px 0 8px;
+      font-weight: 900;
+      position: relative;
+      z-index: 5;
     }
 
     .subtitle{
       font-size: clamp(16px, 2.2vw, 19px);
       line-height: 1.55;
+      opacity: 0.96;
+      margin: 0 auto 16px;
+      max-width: 760px;
       white-space: pre-line;
-      opacity:0.96;
-      margin-bottom:14px;
+      position: relative;
+      z-index: 5;
     }
 
-    /* IMAGE with blur bg */
+    .tiny{
+      font-size: 13px;
+      opacity: 0.92;
+      margin-top: 10px;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* ===== Image frame (contain + blur bg from same photo) ===== */
+    .img-wrap{
+      width: 100%;
+      margin: 12px auto 12px;
+      display:flex;
+      justify-content:center;
+      position: relative;
+      z-index: 5;
+    }
+
     .img{
-      width: min(680px, 92vw);
-      height: min(400px, 62vw);
+      width: min(720px, 94vw);
+      height: min(410px, 62vw);
       border-radius: 22px;
       overflow:hidden;
-      position:relative;
-      margin: 14px auto;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.12);
+      position: relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
 
     .img .bg{
       position:absolute;
-      inset:0;
+      inset:-16px;
       background-image: var(--img-url);
       background-size: cover;
       background-position: center;
-      filter: blur(18px) brightness(1.35) saturate(1.25);
+      filter: blur(22px) brightness(1.35) saturate(1.25);
       transform: scale(1.15);
+      opacity: 0.95;
     }
 
     .img img{
-      position:relative;
       width:100%;
       height:100%;
-      object-fit: contain;
-      filter: brightness(1.22) contrast(1.05);
-      z-index:2;
+      object-fit: contain;              /* ✅ no cropping */
+      object-position: center center;
+      display:block;
+      position: relative;
+      z-index: 2;
+      filter: brightness(1.18) contrast(1.05);
     }
 
-    /* Buttons */
+    /* soft edge vignette */
+    .img::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(circle at center,
+        rgba(255,255,255,0) 55%,
+        rgba(255,255,255,0.10) 75%,
+        rgba(0,0,0,0.18) 100%);
+      z-index: 3;
+      mix-blend-mode: soft-light;
+    }
+
+    /* ===== Buttons ===== */
     .buttons{
       display:flex;
       justify-content:center;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top:16px;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 6;
     }
 
     button{
-      font-size:16px;
-      padding:10px 22px;
-      border:none;
-      border-radius:999px;
+      font-size: 16px;
+      padding: 11px 22px;
+      border: none;
+      border-radius: 999px;
       cursor:pointer;
-      color:#fff;
-      min-width:140px;
-      box-shadow:0 10px 22px rgba(0,0,0,0.2);
+      color: #fff;
+      user-select:none;
+      transition: transform .08s ease, filter .2s ease;
+      min-width: 150px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+    }
+    button:active{ transform: scale(.98); }
+
+    #yes{ background: var(--green); }
+    #no { background: var(--red); }
+
+    /* Heartbeat for heart in YES */
+    .yes-heart{
+      display:inline-block;
+      margin-left: 6px;
+      animation: beat 1.05s infinite;
+      transform-origin: center;
+    }
+    @keyframes beat{
+      0%,100%{ transform: scale(1); }
+      20%{ transform: scale(1.25); }
+      45%{ transform: scale(1.4); }
+      70%{ transform: scale(1.18); }
     }
 
+    /* Glitter shimmer on YES button (subtle) */
     #yes{
-      background: var(--green);
-      position:relative;
+      position: relative;
       overflow:hidden;
     }
-
-    #no{
-      background: var(--red);
-    }
-
-    /* YES glitter */
     #yes::after{
       content:"";
       position:absolute;
-      inset:-40%;
-      background: linear-gradient(110deg,
+      inset:-50%;
+      background: linear-gradient(120deg,
         rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.20) 45%,
-        rgba(255,255,255,0.65) 50%,
-        rgba(255,255,255,0.20) 55%,
+        rgba(255,255,255,0.15) 45%,
+        rgba(255,255,255,0.55) 50%,
+        rgba(255,255,255,0.15) 55%,
         rgba(255,255,255,0) 100%);
       transform: translateX(-35%);
-      opacity:0.3;
+      opacity:0.25;
       filter: blur(6px);
-      animation: glitter 2.4s infinite;
+      animation: shimmer 2.6s infinite;
+      pointer-events:none;
     }
-
-    @keyframes glitter{
-      0%{ transform: translateX(-35%); opacity:0.12; }
-      50%{ opacity:0.38; }
-      100%{ transform: translateX(35%); opacity:0.12; }
-    }
-
-    /* ❤️ Heartbeat */
-    .yes-heart{
-      display:inline-block;
-      margin:0 4px;
-      animation: beat 1.1s infinite;
-    }
-
-    @keyframes beat{
-      0%,100%{ transform:scale(1); }
-      25%{ transform:scale(1.25); }
-      60%{ transform:scale(1.35); }
+    @keyframes shimmer{
+      0%{ transform: translateX(-35%); opacity:0.10; }
+      45%{ opacity:0.28; }
+      100%{ transform: translateX(35%); opacity:0.10; }
     }
 
     .pill{
-      display:inline-block;
-      margin-top:16px;
-      padding:10px 16px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.16);
+      display:inline-flex;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      margin-top: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
       cursor:pointer;
+      position: relative;
+      z-index: 6;
+    }
+
+    /* ===== IG-like Sparkles (around edges, not covering faces) ===== */
+    .sparkle-layer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index: 4; /* above bg, below text/buttons */
+      overflow:hidden;
+    }
+
+    .sparkle{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      opacity:0;
+      transform: scale(0.6);
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.65));
+      background: radial-gradient(circle,
+        rgba(255,255,255,0.95) 0%,
+        rgba(255,255,255,0.35) 35%,
+        rgba(255,255,255,0) 70%);
+      animation: twinkle 1.8s infinite;
+    }
+
+    @keyframes twinkle{
+      0%{ opacity:0; transform: scale(0.6); }
+      20%{ opacity:0.85; transform: scale(1.05); }
+      55%{ opacity:0.35; transform: scale(0.9); }
+      100%{ opacity:0; transform: scale(0.6); }
+    }
+
+    /* confetti burst */
+    .confetti{
+      position: fixed;
+      top: -12px;
+      font-size: 18px;
+      animation: fall linear forwards;
+      pointer-events:none;
+      filter: drop-shadow(0 7px 12px rgba(0,0,0,0.25));
+      z-index: 9999;
+    }
+    @keyframes fall{
+      to{
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.92;
+      }
     }
   </style>
 </head>
 
 <body>
-
-  <!-- ✅ Background Music -->
-  <audio id="bgm" loop>
+  <!-- ✅ Background Music (upload love.mp3 in repo root) -->
+  <audio id="bgm" loop preload="auto">
     <source src="love.mp3" type="audio/mpeg">
   </audio>
 
   <div class="stage" id="app"></div>
 
   <script>
+    const IS_TOUCH = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+
+    // ✅ Filenames from your repo list
     const IMAGES = {
       didiCurious: "01-didi-curious.jpg",
       bibiSmile: "02-bibi-smile.jpg",
-      cryGirl: "cry-girl.jpg"
+      cryGirl: "cry-girl.jpg",
+
+      protector: "protector.jpg.jpg",
+      chef: "chef.jpg.jpg",
+      shoePlaster: "shoe-plaster.jpg.jpeg",
+      world: "world.jpg.jpg",
+      carry: "carry.jpg.jpg",
+      listen: "listen.jpg.PNG",
+      holdHand: "hold-hand.jpg.jpg",
+      sareeWedding: "saree-wedding.jpg.jpg"
     };
 
     function playMusic(){
-      const audio = document.getElementById("bgm");
-      if(audio) audio.play().catch(()=>{});
+      const a = document.getElementById("bgm");
+      if(!a) return;
+      a.play().catch(()=>{});
     }
 
     function render(html){
       document.getElementById("app").innerHTML = html;
     }
 
-    /* ===== Screens ===== */
+    function confettiBurst(count){
+      const emojis = ["🎉","✨","🎈","💖","🥳","💝","🌍","🪐","❤️","💘"];
+      for(let i=0;i<count;i++){
+        const el = document.createElement("div");
+        el.className = "confetti";
+        el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        el.style.left = (Math.random()*100) + "vw";
+        el.style.animationDuration = (1.8 + Math.random()*2.6) + "s";
+        el.style.opacity = (0.72 + Math.random()*0.25).toFixed(2);
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 5200);
+      }
+    }
 
-    function screenStart(){
+    // Sparkles generator (IG-ish) — only for selected screens
+    function addSparkles(amount=22){
+      const layer = document.querySelector(".sparkle-layer");
+      if(!layer) return;
+
+      layer.innerHTML = "";
+      for(let i=0;i<amount;i++){
+        const s = document.createElement("div");
+        s.className = "sparkle";
+
+        // place around edges (avoid center face area)
+        const edge = Math.random();
+        let x, y;
+
+        if(edge < 0.25){ // top band
+          x = 5 + Math.random()*90;
+          y = 2 + Math.random()*10;
+        } else if(edge < 0.5){ // bottom band
+          x = 5 + Math.random()*90;
+          y = 88 + Math.random()*10;
+        } else if(edge < 0.75){ // left band
+          x = 2 + Math.random()*10;
+          y = 10 + Math.random()*78;
+        } else { // right band
+          x = 88 + Math.random()*10;
+          y = 10 + Math.random()*78;
+        }
+
+        s.style.left = x + "%";
+        s.style.top  = y + "%";
+        s.style.animationDelay = (Math.random()*1.8) + "s";
+        s.style.animationDuration = (1.3 + Math.random()*1.8) + "s";
+
+        const size = 8 + Math.random()*10;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+
+        layer.appendChild(s);
+      }
+    }
+
+    function photoCard({emoji, title, subtitle, imgSrc, nextKey, sparkles=false}){
       render(`
         <div class="card">
-          <div class="emoji-banner">💘🌹</div>
-          <div class="title">Hey Love 💕</div>
-          <div class="subtitle">
-It’s Valentine’s Day, Didi 🥰
-Will you be my Valentine? 💖
+          <div class="sparkle-layer"></div>
+          <div class="emoji-banner">${emoji || ""}</div>
+
+          <div class="img-wrap">
+            <div class="img" style="--img-url:url('${imgSrc}')">
+              <div class="bg"></div>
+              <img src="${imgSrc}" alt="photo" />
+            </div>
           </div>
 
+          <div class="title">${title}</div>
+          <div class="subtitle">${subtitle}</div>
+
+          <div class="pill" onclick="go('${nextKey}')">Tap to continue ➜</div>
+        </div>
+      `);
+
+      if(sparkles) addSparkles(24);
+    }
+
+    function yesNoCard({emoji, title, subtitle, imgSrc, yesKey, noKey, tiny, sparkles=false, startMusic=false}){
+      render(`
+        <div class="card">
+          <div class="sparkle-layer"></div>
+          <div class="emoji-banner">${emoji || ""}</div>
+
+          ${imgSrc ? `
+          <div class="img-wrap">
+            <div class="img" style="--img-url:url('${imgSrc}')">
+              <div class="bg"></div>
+              <img src="${imgSrc}" alt="photo" />
+            </div>
+          </div>` : ""}
+
+          <div class="title">${title}</div>
+          <div class="subtitle">${subtitle}</div>
+
           <div class="buttons">
-            <button id="yes" onclick="playMusic(); go('question')">
+            <button id="yes" onclick="${startMusic ? 'playMusic();' : ''} go('${yesKey}')">
               Yes <span class="yes-heart">❤️</span>✨
             </button>
-
-            <button id="no" onclick="go('deny')">
+            <button id="no" onclick="go('${noKey}')">
               No 😝
             </button>
           </div>
+
+          ${tiny ? `<div class="tiny">${tiny}</div>` : ""}
         </div>
       `);
+
+      if(sparkles) addSparkles(22);
     }
 
-    function screenDeny(){
+    function cryScreen({title, subtitle, backKey}){
       render(`
         <div class="card">
+          <div class="sparkle-layer"></div>
+
           <div class="emoji-banner">😭💔😭</div>
 
-          <div class="img" style="--img-url:url('${IMAGES.cryGirl}')">
-            <div class="bg"></div>
-            <img src="${IMAGES.cryGirl}" />
+          <div class="img-wrap">
+            <div class="img" style="--img-url:url('${IMAGES.cryGirl}')">
+              <div class="bg"></div>
+              <img src="${IMAGES.cryGirl}" alt="cry" />
+            </div>
           </div>
 
-          <div class="title">Why you deny my Valentine surprise? 😭</div>
-          <div class="subtitle">Pleaseeee Didi… 🥺💔</div>
-
-          <div class="pill" onclick="go('start')">⬅ Back</div>
+          <div class="title">${title}</div>
+          <div class="subtitle">${subtitle}</div>
+          <div class="pill" onclick="go('${backKey}')">⬅️ Back</div>
         </div>
       `);
+      // No sparkles on cry screen (keeps mood)
+    }
+
+    // ===== Screens =====
+    function screenStart(){
+      yesNoCard({
+        emoji:"💘🌹",
+        title:"Hey Love 💕",
+        subtitle:"It’s Valentine’s Day, Didi 🥰\nWill you be my Valentine? 💖",
+        imgSrc:null,
+        yesKey:"question",
+        noKey:"deny1",
+        tiny:"(No button is real… but please don’t break my heart 😝)",
+        sparkles:true,
+        startMusic:true   // ✅ start music on first YES
+      });
+    }
+
+    function screenDeny1(){
+      cryScreen({
+        title:"Why you deny my surprise? 😭",
+        subtitle:"Pleaseeee Didi… 🥺💔",
+        backKey:"start"
+      });
     }
 
     function screenQuestion(){
-      render(`
-        <div class="card">
-          <div class="emoji-banner">🤨💭</div>
-
-          <div class="img" style="--img-url:url('${IMAGES.didiCurious}')">
-            <div class="bg"></div>
-            <img src="${IMAGES.didiCurious}" />
-          </div>
-
-          <div class="title">Do you know how important you are to me?</div>
-          <div class="subtitle">One little question, Didi 😚</div>
-
-          <div class="buttons">
-            <button id="yes" onclick="go('bibi')">
-              Yes <span class="yes-heart">❤️</span>✨
-            </button>
-            <button id="no" onclick="go('deny')">
-              No 😝
-            </button>
-          </div>
-        </div>
-      `);
+      yesNoCard({
+        emoji:"🤨💭",
+        title:"Do you know how important you are to me?",
+        subtitle:"Choose carefully, Didi 😚",
+        imgSrc: IMAGES.didiCurious,
+        yesKey:"bibi",
+        noKey:"deny2",
+        tiny:null,
+        sparkles:false,     // ✅ no sparkles on curious photo
+        startMusic:false
+      });
     }
 
-    /* ✅ Updated content */
+    function screenDeny2(){
+      cryScreen({
+        title:"Why would you ignore my feelings? 😭",
+        subtitle:"I’m gonna cry now… 🥺💔",
+        backKey:"question"
+      });
+    }
+
     function screenBibi(){
+      // ✅ Updated content you asked
+      photoCard({
+        emoji:"😆💖",
+        title:"eiei! yeah you're important to me",
+        subtitle:"Today, tomorrow… always 💘",
+        imgSrc: IMAGES.bibiSmile,
+        nextKey:"how",
+        sparkles:true
+      });
+    }
+
+    function screenHowIntro(){
       render(`
         <div class="card">
-          <div class="emoji-banner">😆💖</div>
-
-          <div class="img" style="--img-url:url('${IMAGES.bibiSmile}')">
-            <div class="bg"></div>
-            <img src="${IMAGES.bibiSmile}" />
-          </div>
-
-          <div class="title">eiei! yeah you're important to me</div>
-          <div class="subtitle">for real… like A LOT 🥹💘</div>
-
-          <div class="pill" onclick="go('start')">Tap again 💕</div>
+          <div class="sparkle-layer"></div>
+          <div class="emoji-banner">✨💞✨</div>
+          <div class="title">Let me share how important you are to me</div>
+          <div class="subtitle">Let me show you, Didi… one by one 🥺💖</div>
+          <div class="pill" onclick="go('p1')">Tap ➜</div>
         </div>
       `);
+      addSparkles(22);
+    }
+
+    function screenWish(){
+      confettiBurst(140);
+      setTimeout(()=>confettiBurst(100), 450);
+      setTimeout(()=>confettiBurst(80), 900);
+
+      render(`
+        <div class="card">
+          <div class="sparkle-layer"></div>
+          <div class="emoji-banner">💖✨💖</div>
+          <div class="title">HAPPY VALENTINE’S DAY, DIDI! 🥰</div>
+
+          <div class="subtitle">You make my world softer, safer, and happier every day.
+Wish you to trade the same energy from me ✨❤️
+
+I love you — today and always
+until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
+
+          <div class="tiny">— your Bibi 💖</div>
+        </div>
+      `);
+      addSparkles(26);
     }
 
     function go(key){
       const routes = {
         start: screenStart,
-        deny: screenDeny,
+        deny1: screenDeny1,
         question: screenQuestion,
-        bibi: screenBibi
+        deny2: screenDeny2,
+        bibi: screenBibi,
+        how: screenHowIntro,
+
+        p1: ()=>photoCard({
+          emoji:"💪🛡️",
+          title:"You're my protector",
+          subtitle:"You make me feel stronger and protected 💪😌",
+          imgSrc: IMAGES.protector,
+          nextKey:"p2",
+          sparkles:true
+        }),
+
+        p2: ()=>photoCard({
+          emoji:"👨‍🍳💖",
+          title:"You're my fantastic chef",
+          subtitle:"Good food, Happy moods 😋🍽️",
+          imgSrc: IMAGES.chef,
+          nextKey:"p3",
+          sparkles:true
+        }),
+
+        p3: ()=>photoCard({
+          emoji:"💖🥰",
+          title:"You take care of me",
+          subtitle:"Even the tiniest things… you notice 🥺💞",
+          imgSrc: IMAGES.shoePlaster,
+          nextKey:"p4",
+          sparkles:true
+        }),
+
+        p4: ()=>photoCard({
+          emoji:"🌍💘",
+          title:"You open me the world",
+          subtitle:"With you, everything feels possible 🌍✨",
+          imgSrc: IMAGES.world,
+          nextKey:"p5",
+          sparkles:true
+        }),
+
+        p5: ()=>photoCard({
+          emoji:"🛍️💖",
+          title:"You make me feel light",
+          subtitle:"You carry the heavy things for me 🥺🤍",
+          imgSrc: IMAGES.carry,
+          nextKey:"p6",
+          sparkles:true
+        }),
+
+        p6: ()=>photoCard({
+          emoji:"🫶💞",
+          title:"You clear all my doubts",
+          subtitle:"You listen and calm my mind 🫶💬",
+          imgSrc: IMAGES.listen,
+          nextKey:"p7",
+          sparkles:true
+        }),
+
+        p7: ()=>photoCard({
+          emoji:"🤝❤️",
+          title:"You never make me feel abandoned",
+          subtitle:"You hold my hand through everything 🤝❤️",
+          imgSrc: IMAGES.holdHand,
+          nextKey:"p8",
+          sparkles:true
+        }),
+
+        p8: ()=>photoCard({
+          emoji:"💍✨",
+          title:"You're the one I see my future with",
+          subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
+          imgSrc: IMAGES.sareeWedding,
+          nextKey:"wish",
+          sparkles:true
+        }),
+
+        wish: screenWish
       };
+
       (routes[key] || screenStart)();
     }
 
+    // expose for inline onclick
+    window.go = go;
+    window.playMusic = playMusic;
+
     go("start");
   </script>
-
 </body>
 </html>
