@@ -18,6 +18,7 @@
     }
 
     *{ box-sizing:border-box; }
+
     body{
       margin:0;
       height:100vh;
@@ -32,7 +33,7 @@
     }
 
     .stage{
-      width:min(760px, 92vw);
+      width:min(820px, 92vw);
       padding: 18px;
     }
 
@@ -50,7 +51,6 @@
       font-size: clamp(26px, 4.2vw, 42px);
       margin: 10px 0 8px;
       font-weight: 800;
-      letter-spacing: 0.2px;
     }
 
     .subtitle{
@@ -58,7 +58,7 @@
       line-height: 1.55;
       opacity: 0.96;
       margin: 0 auto 16px;
-      max-width: 640px;
+      max-width: 680px;
       white-space: pre-line;
     }
 
@@ -68,39 +68,42 @@
       margin-top: 10px;
     }
 
+    /* ✅ IMAGE FRAME */
     .img-wrap{
       width: 100%;
-      margin: 12px auto 12px;
+      margin: 12px auto;
       display:flex;
       justify-content:center;
     }
 
     .img{
-      width: min(520px, 86vw);
-      height: min(320px, 52vw);
-      border-radius: 20px;
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.18);
+      width: min(560px, 88vw);
+      height: min(360px, 56vw);
+      border-radius: 22px;
       overflow:hidden;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.10);
       display:flex;
       align-items:center;
       justify-content:center;
-      position:relative;
     }
+
+    /* ✅ FULL FRAME BUT KEEP FACE */
     .img img{
       width:100%;
       height:100%;
-      object-fit: cover;
+      object-fit: cover;        
+      object-position: center top; /* ✅ face stays visible */
       display:block;
     }
 
     .emoji-banner{
       font-size: 38px;
-      filter: drop-shadow(0 10px 14px rgba(0,0,0,0.22));
       margin-bottom: 6px;
     }
 
+    /* YES/NO buttons */
     .buttons{
       margin-top: 14px;
       position: relative;
@@ -115,12 +118,10 @@
       cursor:pointer;
       margin: 10px;
       color: #fff;
-      transition: transform .08s ease, opacity .2s ease;
-      user-select:none;
     }
-    button:active{ transform: scale(.98); }
 
     #yes{ background: var(--green); }
+
     #no{
       background: var(--red);
       position:absolute;
@@ -128,7 +129,7 @@
       top: 8px;
     }
 
-    .click-anywhere{
+    .pill{
       display:inline-flex;
       gap:10px;
       align-items:center;
@@ -141,11 +142,12 @@
       cursor:pointer;
     }
 
-    /* Cry background screens */
+    /* Cry background */
     .cry-bg{
       background: #000;
       padding: 0;
     }
+
     .cry-bg::before{
       content:"";
       position:absolute;
@@ -156,6 +158,7 @@
       filter: brightness(0.55);
       transform: scale(1.03);
     }
+
     .cry-content{
       position:relative;
       padding: 28px 22px;
@@ -168,9 +171,9 @@
       font-size: 18px;
       animation: fall linear forwards;
       pointer-events:none;
-      filter: drop-shadow(0 7px 12px rgba(0,0,0,0.25));
       z-index: 9999;
     }
+
     @keyframes fall{
       to{
         transform: translateY(110vh) rotate(360deg);
@@ -184,7 +187,7 @@
   <div class="stage" id="app"></div>
 
   <script>
-    // ✅ YOUR EXACT FILENAMES (root folder)
+    /* ✅ YOUR EXACT FILE NAMES */
     const IMAGES = {
       didiCurious: "01-didi-curious.jpg",
       bibiSmile: "02-bibi-smile.jpg",
@@ -201,236 +204,129 @@
     };
 
     function confettiBurst(count){
-      const emojis = ["🎉","✨","🎈","💖","🥳","💝","🌍","🪐","❤️"];
+      const emojis = ["🎉","✨","🎈","💖","🥳","🌍","🪐","❤️"];
       for(let i=0;i<count;i++){
         const el = document.createElement("div");
         el.className = "confetti";
         el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-        const left = Math.random()*100;
-        const duration = 1.8 + Math.random()*2.6;
-        el.style.left = left + "vw";
-        el.style.animationDuration = duration + "s";
-        el.style.opacity = (0.72 + Math.random()*0.25).toFixed(2);
+        el.style.left = Math.random()*100 + "vw";
+        el.style.animationDuration = (2 + Math.random()*2) + "s";
         document.body.appendChild(el);
-        setTimeout(()=> el.remove(), duration*1000 + 200);
+        setTimeout(()=> el.remove(), 4000);
       }
     }
 
     function moveNo(){
       const btn = document.getElementById("no");
       if(!btn) return;
-      const pad = 18;
-      const maxX = window.innerWidth - btn.offsetWidth - pad;
-      const maxY = window.innerHeight - btn.offsetHeight - pad;
-      const x = Math.random() * Math.max(10, maxX);
-      const y = Math.random() * Math.max(10, maxY);
-      btn.style.left = x + "px";
-      btn.style.top  = y + "px";
+      btn.style.left = Math.random()*60 + "vw";
+      btn.style.top  = Math.random()*50 + "vh";
     }
 
     function render(html){
       document.getElementById("app").innerHTML = html;
     }
 
-    function photoCard({emoji, title, subtitle, imgSrc, nextKey}){
+    function photoCard(title, subtitle, img, next){
       render(`
         <div class="card">
-          <div class="emoji-banner">${emoji || ""}</div>
-          ${imgSrc ? `
           <div class="img-wrap">
             <div class="img">
-              <img src="${imgSrc}" alt="photo" />
+              <img src="${img}" />
             </div>
-          </div>` : ""}
+          </div>
           <div class="title">${title}</div>
           <div class="subtitle">${subtitle}</div>
-          <div class="click-anywhere" onclick="go('${nextKey}')">Tap to continue ➜</div>
+          <div class="pill" onclick="go('${next}')">Tap to continue ➜</div>
         </div>
       `);
     }
 
-    function screenStart(){
-      render(`
-        <div class="card">
-          <div class="emoji-banner">🎂🎈</div>
-          <div class="title">Hey Love 💕</div>
-          <div class="subtitle">It’s your birthday, Didi! 🥳\nClick YES to open your surprise 🎁</div>
-
-          <div class="buttons">
-            <button id="yes" onclick="go('question')">Yes 💚</button>
-            <button id="no" onmouseover="moveNo()" onclick="go('deny1')">No 😝</button>
-          </div>
-
-          <div class="tiny">“No” seems a bit shy 😅</div>
-        </div>
-      `);
-    }
-
-    function screenDeny1(){
+    function cry(title, back){
       render(`
         <div class="card cry-bg" style="--cry-url:url('${IMAGES.cryGirl}')">
           <div class="cry-content">
-            <div class="emoji-banner">😭😭😭</div>
-            <div class="title">Why you deny my surprise?</div>
-            <div class="subtitle">Pleaseeee Didi… 🥺😭</div>
-            <div class="click-anywhere" onclick="go('start')">⬅️ Back</div>
+            <div class="title">${title} 😭</div>
+            <div class="pill" onclick="go('${back}')">⬅️ Back</div>
           </div>
-        </div>
-      `);
-    }
-
-    function screenQuestion(){
-      render(`
-        <div class="card">
-          <div class="emoji-banner">🤨💭</div>
-          <div class="img-wrap">
-            <div class="img">
-              <img src="${IMAGES.didiCurious}" alt="Didi curious" />
-            </div>
-          </div>
-          <div class="title">Do you know what I wanna tell you?</div>
-          <div class="subtitle">Choose carefully, Didi 😚</div>
-
-          <div class="buttons">
-            <button id="yes" onclick="go('bibi')">Yes 💚</button>
-            <button id="no" onmouseover="moveNo()" onclick="go('deny2')">No 😝</button>
-          </div>
-        </div>
-      `);
-    }
-
-    function screenDeny2(){
-      render(`
-        <div class="card cry-bg" style="--cry-url:url('${IMAGES.cryGirl}')">
-          <div class="cry-content">
-            <div class="emoji-banner">😭💔😭</div>
-            <div class="title">why you ignore my feelings</div>
-            <div class="subtitle">I’m gonna cry now… 😭</div>
-            <div class="click-anywhere" onclick="go('question')">⬅️ Back</div>
-          </div>
-        </div>
-      `);
-    }
-
-    function screenBibi(){
-      photoCard({
-        emoji: "😊❤️",
-        title: "You're important for me",
-        subtitle: "Do you know that 😄💖",
-        imgSrc: IMAGES.bibiSmile,
-        nextKey: "how"
-      });
-    }
-
-    function screenHowIntro(){
-      render(`
-        <div class="card">
-          <div class="emoji-banner">✨💞✨</div>
-          <div class="title">How you important for me</div>
-          <div class="subtitle">Let me show you, Didi… one by one 😘</div>
-          <div class="click-anywhere" onclick="go('p1')">Tap ➜</div>
-        </div>
-      `);
-    }
-
-    function screenWish(){
-      confettiBurst(140);
-      setTimeout(()=>confettiBurst(100), 450);
-      setTimeout(()=>confettiBurst(80), 900);
-
-      render(`
-        <div class="card">
-          <div class="emoji-banner">🎉🎂🎉</div>
-          <div class="title">HAPPY BIRTHDAY, DIDI! 🥰</div>
-
-          <div class="subtitle">You make my world softer, safer, and happier every day.
-Wish you to trade the same energy from me ✨❤️
-
-I love you — today and always
-until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
-
-          <div class="tiny">— your Bibi 💖</div>
         </div>
       `);
     }
 
     function go(key){
-      const routes = {
-        start: screenStart,
-        deny1: screenDeny1,
-        question: screenQuestion,
-        deny2: screenDeny2,
-        bibi: screenBibi,
-        how: screenHowIntro,
+      const pages = {
 
-        p1: ()=>photoCard({
-          emoji:"💪🛡️",
-          title:"you're my protector",
-          subtitle:"You make me feel stronger 💪😌",
-          imgSrc: IMAGES.protector,
-          nextKey:"p2"
-        }),
+        start: () => render(`
+          <div class="card">
+            <div class="emoji-banner">🎂🎈</div>
+            <div class="title">Hey Love 💕</div>
+            <div class="subtitle">It’s your birthday, Didi!\nClick YES to open your surprise 🎁</div>
 
-        p2: ()=>photoCard({
-          emoji:"👨‍🍳🍲",
-          title:"you're my chef to keep me full",
-          subtitle:"You always keep me happy and full 😋🍽️",
-          imgSrc: IMAGES.chef,
-          nextKey:"p3"
-        }),
+            <div class="buttons">
+              <button id="yes" onclick="go('question')">Yes 💚</button>
+              <button id="no" onmouseover="moveNo()" onclick="go('deny1')">No 😝</button>
+            </div>
+          </div>
+        `),
 
-        p3: ()=>photoCard({
-          emoji:"🫶💕",
-          title:"you keep me safe and calm",
-          subtitle:"Even small things… you take care of me 🥺💕",
-          imgSrc: IMAGES.shoePlaster,
-          nextKey:"p4"
-        }),
+        deny1: () => cry("Why you deny my surprise?", "start"),
 
-        p4: ()=>photoCard({
-          emoji:"🌍✈️",
-          title:"you open me the world",
-          subtitle:"With you, everything feels possible 🌍✈️",
-          imgSrc: IMAGES.world,
-          nextKey:"p5"
-        }),
+        question: () => render(`
+          <div class="card">
+            <div class="img-wrap">
+              <div class="img">
+                <img src="${IMAGES.didiCurious}" />
+              </div>
+            </div>
+            <div class="title">Do you know what I wanna tell you?</div>
 
-        p5: ()=>photoCard({
-          emoji:"🛍️✨",
-          title:"you make me feel light",
-          subtitle:"You take the heavy weight out of me 🛍️🤍",
-          imgSrc: IMAGES.carry,
-          nextKey:"p6"
-        }),
+            <div class="buttons">
+              <button id="yes" onclick="go('bibi')">Yes 💚</button>
+              <button id="no" onmouseover="moveNo()" onclick="go('deny2')">No 😝</button>
+            </div>
+          </div>
+        `),
 
-        p6: ()=>photoCard({
-          emoji:"🫶👂",
-          title:"you clear all my doubts",
-          subtitle:"You listen and calm my mind 👂💬",
-          imgSrc: IMAGES.listen,
-          nextKey:"p7"
-        }),
+        deny2: () => cry("why you ignore my feelings", "question"),
 
-        p7: ()=>photoCard({
-          emoji:"🤝❤️",
-          title:"you never make me feel abandoned",
-          subtitle:"You hold my hand through everything 🤝❤️",
-          imgSrc: IMAGES.holdHand,
-          nextKey:"p8"
-        }),
+        bibi: () => photoCard(
+          "You're important for me 😊❤️",
+          "Smiley for you 😄💖",
+          IMAGES.bibiSmile,
+          "p1"
+        ),
 
-        p8: ()=>photoCard({
-          emoji:"💍✨",
-          title:"you're a kind of my I see future with",
-          subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
-          imgSrc: IMAGES.sareeWedding,
-          nextKey:"wish"
-        }),
+        p1: () => photoCard("you're my protector 💪🛡️", "You make me feel stronger 💪😌", IMAGES.protector, "p2"),
+        p2: () => photoCard("you're my chef 👨‍🍳", "You keep me full 😋🍽️", IMAGES.chef, "p3"),
+        p3: () => photoCard("you keep me safe 🩹", "Even small things… you care 💖", IMAGES.shoePlaster, "p4"),
+        p4: () => photoCard("you open me the world 🌍", "With you everything is possible ✈️", IMAGES.world, "p5"),
+        p5: () => photoCard("you make me feel light 🛍️", "You carry the weight with me 🤍", IMAGES.carry, "p6"),
+        p6: () => photoCard("you clear all my doubts 👂", "You listen and calm me 💬", IMAGES.listen, "p7"),
+        p7: () => photoCard("you never abandon me 🤝", "You hold my hand always ❤️", IMAGES.holdHand, "p8"),
+        p8: () => photoCard("I see my future with you 💍", "Forever person 👰🤵💖", IMAGES.sareeWedding, "wish"),
 
-        wish: screenWish
+        wish: () => {
+          confettiBurst(120);
+          render(`
+            <div class="card">
+              <div class="emoji-banner">🎉🎂🎉</div>
+              <div class="title">HAPPY BIRTHDAY, DIDI! 🥰</div>
+
+              <div class="subtitle">
+You make my world softer, safer, and happier every day.
+Wish you to trade the same energy from me ✨❤️
+
+I love you — today and always
+until Pluto and back to Sun and beyond. 🌍🪐❤️
+              </div>
+
+              <div class="tiny">— your Bibi 💖</div>
+            </div>
+          `);
+        }
       };
 
-      (routes[key] || screenStart)();
+      pages[key]();
     }
 
     go("start");
