@@ -1,10 +1,192 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Happy Birthday</title>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ff4d6d, #ff758f);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card {
+      background: rgba(0, 0, 0, 0.20);
+      padding: 30px;
+      border-radius: 20px;
+      max-width: 360px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+      position: relative;
+    }
+
+    .emoji {
+      font-size: 52px;
+      margin-bottom: 8px;
+      display: block;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 0 0 10px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 0 0 18px;
+      line-height: 1.35;
+    }
+
+    .buttons {
+      position: relative;
+      height: 70px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+      transition: transform 0.08s ease;
+      user-select: none;
+    }
+
+    button:active { transform: scale(0.98); }
+
+    #yes {
+      background: #2ecc71;
+      color: white;
+    }
+
+    #no {
+      background: #e74c3c;
+      color: white;
+      position: absolute;
+      left: 58%;
+      top: 10px;
+    }
+
+    .tiny {
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 6px;
+    }
+
+    /* confetti */
+    .confetti {
+      position: fixed;
+      top: -12px;
+      font-size: 18px;
+      animation: fall linear forwards;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.9;
+      }
+    }
+  </style>
 </head>
-<body style="text-align:center; font-family:Arial;">
-<h1>Happy Birthday Didi 🎂❤️</h1>
-<p>Love you always 💖</p>
+
+<body>
+  <div class="card" id="card">
+    <span class="emoji">🎂🎈</span>
+    <h1>Hey Love 💕</h1>
+    <p>
+      It’s your birthday, Didi! 🥳<br>
+      Click <b>YES</b> to open your surprise 🎁
+    </p>
+
+    <div class="buttons">
+      <button id="yes" onclick="sayYes()">Yes 💚</button>
+      <button id="no" onmouseover="moveNo()" onclick="moveNo()">No 😝</button>
+    </div>
+
+    <div class="tiny">“No” seems a bit shy 😅</div>
+  </div>
+
+  <script>
+    function sayYes() {
+      // confetti burst
+      confettiBurst(90);
+
+      document.body.innerHTML = `
+        <div style="
+          height:100vh;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          flex-direction:column;
+          background:linear-gradient(135deg,#ff4d6d,#ff758f);
+          color:white;
+          font-family:Arial;
+          text-align:center;
+          padding:24px;
+        ">
+          <div style="font-size:56px; margin-bottom:10px;">🎉🎂🎉</div>
+          <h1 style="margin:0 0 8px;">HAPPY BIRTHDAY, DIDI! 🥰</h1>
+          <p style="max-width:520px; font-size:18px; margin:0 0 14px; line-height:1.35;">
+            You make my world softer, safer, and happier every day. Wish you to trade the same energy from me ✨❤️<br>
+            I love you — today and always until Pluto and back to Sun and beyond.
+          </p>
+          <div style="font-size:16px; opacity:0.95;">— your Bibi 💖</div>
+          <div style="margin-top:16px; font-size:42px;">🎈✨💝✨🎈</div>
+        </div>
+      `;
+
+      // keep confetti falling a bit
+      confettiBurst(70);
+      setTimeout(() => confettiBurst(60), 450);
+      setTimeout(() => confettiBurst(50), 900);
+    }
+
+    function moveNo() {
+      const button = document.getElementById("no");
+      const padding = 20;
+
+      const maxX = window.innerWidth - button.offsetWidth - padding;
+      const maxY = window.innerHeight - button.offsetHeight - padding;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      button.style.left = x + "px";
+      button.style.top = y + "px";
+    }
+
+    function confettiBurst(count) {
+      const emojis = ["🎉","✨","🎈","💖","🥳","💝"];
+      for (let i = 0; i < count; i++) {
+        const el = document.createElement("div");
+        el.className = "confetti";
+        el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+        const left = Math.random() * 100; // vw
+        const duration = 1.8 + Math.random() * 2.5; // seconds
+
+        el.style.left = left + "vw";
+        el.style.animationDuration = duration + "s";
+        el.style.opacity = (0.7 + Math.random() * 0.3).toFixed(2);
+
+        document.body.appendChild(el);
+
+        setTimeout(() => el.remove(), (duration * 1000) + 200);
+      }
+    }
+  </script>
 </body>
 </html>
