@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -293,11 +293,20 @@
 
       protector: "protector.jpg.jpg",
       chef: "chef.jpg.jpg",
+      stealFood: "Steal%20food.jpg",
       shoePlaster: "shoe-plaster.jpg.jpeg",
       world: "world.jpg.jpg",
+      heat: "heat.jpg",
+      fun: "fun.jpg",
+      adventure: "adventure.jpg",
+      everywhereTogether: "everywhere_togather.jpg",
+      diwali: "Diwali.jpg",
+      karvachau: "Karvachau.jpg",
       carry: "carry.jpg.jpg",
       listen: "listen.jpg.PNG",
+      moody: "Moody.jpg",
       holdHand: "hold-hand.jpg.jpg",
+      miniUs: "Mini%20us.jpg",
       sareeWedding: "saree-wedding.jpg.jpg"
     };
 
@@ -455,7 +464,7 @@
         noKey:"deny1",
         tiny:"(No button is real… but please don’t break my heart 😝)",
         sparkles:true,
-        startMusic:true   // ✅ start music on first YES
+        startMusic:true
       });
     }
 
@@ -476,7 +485,7 @@
         yesKey:"bibi",
         noKey:"deny2",
         tiny:null,
-        sparkles:false,     // ✅ no sparkles on curious photo
+        sparkles:false,
         startMusic:false
       });
     }
@@ -490,7 +499,6 @@
     }
 
     function screenBibi(){
-      // ✅ Updated content you asked
       photoCard({
         emoji:"😆💖",
         title:"Eiei! yeah you're important to me",
@@ -546,71 +554,153 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
         bibi: screenBibi,
         how: screenHowIntro,
 
+        /* ✅ ORDER p1..p17 exactly as your table */
         p1: ()=>photoCard({
-          emoji:"💪🛡️",
+          emoji:"🛡️💪✨",
           title:"You're my protector",
-          subtitle:"You make me feel stronger and protected 💪😌",
+          subtitle:"You make me feel safe, brave, and protected 💪😌",
           imgSrc: IMAGES.protector,
           nextKey:"p2",
           sparkles:true
         }),
 
         p2: ()=>photoCard({
-          emoji:"👨‍🍳💖",
+          emoji:"👨‍🍳🍽️💖",
           title:"You're my fantastic chef",
-          subtitle:"Good food, Happy moods 😋🍽️",
+          subtitle:"Good food, happy moods 😋🍽️",
           imgSrc: IMAGES.chef,
           nextKey:"p3",
           sparkles:true
         }),
 
         p3: ()=>photoCard({
-          emoji:"💖🥰",
-          title:"You take care of me",
-          subtitle:"Even the tiniest things about me… you notice 🥺💞",
-          imgSrc: IMAGES.shoePlaster,
+          emoji:"😝🍟💘",
+          title:"Even when you mess with my mood or my food",
+          subtitle:"You always know how to bring it back — and we’re never apart.",
+          imgSrc: IMAGES.stealFood,
           nextKey:"p4",
           sparkles:true
         }),
 
         p4: ()=>photoCard({
-          emoji:"🌍✈️💘",
-          title:"You open me the world",
-          subtitle:"With you, everything feels possible 🌍✨",
-          imgSrc: IMAGES.world,
+          emoji:"🩹🥺💞",
+          title:"You take care of me",
+          subtitle:"Even the tiniest things about me… you notice 🥺💞",
+          imgSrc: IMAGES.shoePlaster,
           nextKey:"p5",
           sparkles:true
         }),
 
         p5: ()=>photoCard({
-          emoji:"🛍️💖",
-          title:"You soften my heaviness",
-          subtitle:"you carry what weighs me down, in every way, both in my hands and in my heart🥺🤍",
-          imgSrc: IMAGES.carry,
+          emoji:"🌍✈️💖",
+          title:"You open me the world",
+          subtitle:"With you, everything feels possible 🌍✨",
+          imgSrc: IMAGES.world,
           nextKey:"p6",
           sparkles:true
         }),
 
         p6: ()=>photoCard({
-          emoji:"🫶💞",
-          title:"You clear all my doubts",
-          subtitle:"You listen and calm my mind 🫶💬",
-          imgSrc: IMAGES.listen,
+          emoji:"🏜️🔥🤍",
+          title:"Hot days or cold nights",
+          subtitle:"Together, we can get through every struggle",
+          imgSrc: IMAGES.heat,
           nextKey:"p7",
           sparkles:true
         }),
 
         p7: ()=>photoCard({
-          emoji:"🤝❤️",
-          title:"You never make me feel abandoned",
-          subtitle:"You hold my hand through everything 🤝❤️",
-          imgSrc: IMAGES.holdHand,
+          emoji:"🎢🤣💓",
+          title:"Fast tracks, loud hearts",
+          subtitle:"Loving every adrenaline bump when you're next to me",
+          imgSrc: IMAGES.fun,
           nextKey:"p8",
           sparkles:true
         }),
 
         p8: ()=>photoCard({
-          emoji:"💍✨",
+          emoji:"🧭🌍✨",
+          title:"Across cultures, across skies",
+          subtitle:"Every journey feels right.",
+          imgSrc: IMAGES.adventure,
+          nextKey:"p9",
+          sparkles:true
+        }),
+
+        p9: ()=>photoCard({
+          emoji:"🤪💞😂",
+          title:"Goofy mode - Just us being silly",
+          subtitle:"Laughing, being weird, and loving it together.",
+          imgSrc: IMAGES.everywhereTogether,
+          nextKey:"p10",
+          sparkles:true
+        }),
+
+        p10: ()=>photoCard({
+          emoji:"🪔✨💖",
+          title:"Beyond the festival",
+          subtitle:"Every moment feels extra special.",
+          imgSrc: IMAGES.diwali,
+          nextKey:"p11",
+          sparkles:true
+        }),
+
+        p11: ()=>photoCard({
+          emoji:"🌙🙏💞",
+          title:"Together in faith",
+          subtitle:"Stronger with every step, together.",
+          imgSrc: IMAGES.karvachau,
+          nextKey:"p12",
+          sparkles:true
+        }),
+
+        p12: ()=>photoCard({
+          emoji:"🧳🛍️🤍",
+          title:"You soften my heaviness",
+          subtitle:"You carry what weighs me down — in my hands and in my heart 🥺🤍",
+          imgSrc: IMAGES.carry,
+          nextKey:"p13",
+          sparkles:true
+        }),
+
+        p13: ()=>photoCard({
+          emoji:"🫶💬✨",
+          title:"You clear all my doubts",
+          subtitle:"You listen and calm my mind 🫶💬",
+          imgSrc: IMAGES.listen,
+          nextKey:"p14",
+          sparkles:true
+        }),
+
+        p14: ()=>photoCard({
+          emoji:"😤🤝💖",
+          title:"Disagreements happen",
+          subtitle:"Even on hard days, we stay and committed",
+          imgSrc: IMAGES.moody,
+          nextKey:"p15",
+          sparkles:true
+        }),
+
+        p15: ()=>photoCard({
+          emoji:"🤝❤️🫶",
+          title:"You never make me feel abandoned",
+          subtitle:"You hold my hand through everything 🤝❤️",
+          imgSrc: IMAGES.holdHand,
+          nextKey:"p16",
+          sparkles:true
+        }),
+
+        p16: ()=>photoCard({
+          emoji:"👶💞✨",
+          title:"Mini us",
+          subtitle:"Someday, our mini us will be real.",
+          imgSrc: IMAGES.miniUs,
+          nextKey:"p17",
+          sparkles:true
+        }),
+
+        p17: ()=>photoCard({
+          emoji:"💍✨💖",
           title:"You're the one I see my future with",
           subtitle:"My forever person 👰‍♀️🤵‍♂️💖",
           imgSrc: IMAGES.sareeWedding,
@@ -624,7 +714,6 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
       (routes[key] || screenStart)();
     }
 
-    // expose for inline onclick
     window.go = go;
     window.playMusic = playMusic;
 
@@ -632,4 +721,3 @@ until Pluto and back to Sun and beyond. 🌍🪐❤️</div>
   </script>
 </body>
 </html>
-
